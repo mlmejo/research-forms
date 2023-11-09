@@ -35,7 +35,7 @@
         </div>
 
         <div class="row mb-3">
-            <div class="col">
+            <div class="col-12 col-md-4 mb-3 mb-md-0">
                 <label for="first_name">First Name</label>
                 <input type="text" name="first_name" id="first_name" class="form-control @error('first_name') is-invalid @enderror" autofocus required />
 
@@ -46,7 +46,7 @@
                 @enderror
             </div>
 
-            <div class="col">
+            <div class="col-12 col-md-4 mb-3 mb-md-0">
                 <label for="middle_name">Middle Name</label>
                 <input type="text" name="middle_name" id="middle_name" class="form-control @error('middle_name') is-invalid @enderror" />
 
@@ -57,7 +57,7 @@
                 @enderror
             </div>
 
-            <div class="col">
+            <div class="col-12 col-md-4">
                 <label for="last_name">Last Name</label>
                 <input type="text" name="last_name" id="last_name" class="form-control @error('last_name') is-invalid @enderror" required />
 
@@ -81,7 +81,7 @@
         </div>
 
         <div class="row mb-3">
-            <div class="col">
+            <div class="col-12 col-md-4 mb-3 mb-md-0">
                 <label for="department">Department</label>
                 <input type="text" name="department" id="department" class="form-control @error('department') is-invalid @enderror" autofocus required />
 
@@ -92,7 +92,7 @@
                 @enderror
             </div>
 
-            <div class="col">
+            <div class="col-12 col-md-4 mb-3 mb-md-0">
                 <label for="course">Course</label>
                 <input type="text" name="course" id="course" class="form-control @error('course') is-invalid @enderror" autofocus required />
 
@@ -103,7 +103,7 @@
                 @enderror
             </div>
 
-            <div class="col">
+            <div class="col-12 col-md-4">
                 <label for="year_level">Year Level</label>
                 <select name="year_level" id="year_level" class="custom-select @error('year_level') is-invalid @enderror">
                     <option selected>Select option</option>
