@@ -20,7 +20,7 @@
             <table class="table table-sm table-striped" id="table">
                 <thead>
                     <tr>
-                        <th>Leader Name</th>
+                        <th>Student Name</th>
                         <th>Adviser</th>
                         <th>Date & Time</th>
                         <th>Status</th>

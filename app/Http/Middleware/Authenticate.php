@@ -11,9 +11,9 @@ class Authenticate extends Middleware
 {
     public function handle($request, Closure $next, ...$guards)
     {
-        if (Auth::check() && !Auth::user()->is_active) {
+        if (Auth::check() && ! Auth::user()->is_active) {
             return abort(403);
-        } else if (Auth::check()) {
+        } elseif (Auth::check()) {
             return $next($request);
         }
 

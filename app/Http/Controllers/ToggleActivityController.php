@@ -17,7 +17,7 @@ class ToggleActivityController extends Controller
         $user = User::find($request->user_id);
 
         $user->update([
-            'is_active' => !$user->is_active,
+            'is_active' => ! $user->is_active,
         ]);
 
         return redirect('/home');
