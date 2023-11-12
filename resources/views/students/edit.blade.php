@@ -184,7 +184,7 @@
     </div>
 
     <div class="mt-3 p-3 bg-white">
-        <h2 class="h4 mb-4 font-weight-bold">Reset Password</h2>
+        <h2 class="h4 mb-4 font-weight-bold">Forgot Password</h2>
 
         <form action="{{ route('reset-password') }}" method="post">
             @csrf
@@ -201,7 +201,27 @@
                 <input type="password" name="password_confirmation" id="password_confirmation" class="form-control" />
             </div>
 
-            <button type="submit" class="btn btn-primary">Confirm</button>
+            <button type="submit" class="btn btn-primary">
+                Reset Password
+            </button>
+        </form>
+    </div>
+
+    <div class="mt-3 p-3 bg-white">
+        <h2 class="h4 mb-4 font-weight-bold">Disable Account</h2>
+
+        <form action="{{ route('toggle-activity') }}" method="post">
+            @csrf
+
+            <p class="text-muted">
+                This student cannot log in unless you enable his/her account.
+            </p>
+
+            <input type="hidden" name="user_id" value="{{ $student->user->id }}" />
+
+            <button type="submit" class="btn {{ $student->user->is_active ? 'btn-danger' : 'btn-primary' }}">
+                {{ $student->user->is_active ? 'Disable' : 'Enable' }}
+            </button>
         </form>
     </div>
 @endsection

@@ -3,7 +3,7 @@
 @section('content')
     <div class="p-3 shadow-sm bg-white">
         <h2 class="h4 mb-2 font-weight-bold">Research Forms</h2>
-        <p class="text-muted mb-4">Form Title: {{ $title }}</p>
+        <p class="text-muted mb-4">Form Title: {{ $researchForm->title }}</p>
 
         <div class="col-md-4 p-0 mb-3">
             <select class="custom-select" id="select-form">
@@ -23,6 +23,7 @@
                         <th>Leader Name</th>
                         <th>Adviser</th>
                         <th>Date & Time</th>
+                        <th>Status</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -40,13 +41,30 @@
                                 {{ $student->adviser }}
                             </td>
                             <td>
-                                {{
-                                    \Carbon\Carbon::parse(
-                                        $student->submissions
-                                            ->where('research_form_id', request()->query('formId', 1))
-                                            ->first()->value('created_at')
-                                    )->toDayDateTimeString()
-                                }}
+                                @if (
+                                    !$student->submissions()->where('research_form_id', $researchForm->id)
+                                        ->exists()
+                                )
+                                    N/A
+                                @else
+                                    <span>
+                                        \Carbon\Carbon::parse(
+                                            $student->submissions
+                                                ->where('research_form_id', request()->query('formId', 1))
+                                                ->first()->value('created_at')
+                                        )->toDayDateTimeString()
+                                    </span>
+                                @endif
+                            </td>
+                            <td>
+                                @if (
+                                    !$student->submissions()->where('research_form_id', $researchForm->id)
+                                        ->exists()
+                                )
+                                    <span class="text-danger">Missing</span>
+                                @else
+                                    <span class="text-success">Submitted</span>
+                                @endif
                             </td>
                         </tr>
                     @endforeach

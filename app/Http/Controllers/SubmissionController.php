@@ -15,11 +15,9 @@ class SubmissionController extends Controller
     {
         $researchForm = ResearchForm::find($request->input('formId', 1));
 
-        $students = $researchForm->submissions()->with('student')->get()->pluck('student');
-
         return view('submissions.index', [
-            'title' => $researchForm->title,
-            'students' => $students,
+            'researchForm' => $researchForm,
+            'students' => Student::all(),
             'researchForms' => ResearchForm::all(),
         ]);
     }

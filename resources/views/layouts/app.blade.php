@@ -35,11 +35,13 @@
         }
 
         .sidebar .nav-link {
+            font-size: 0.875rem;
             font-weight: 500;
             color: #4b5563;
         }
 
         .sidebar .nav-link .font-awesome {
+            font-size: 0.875rem;
             margin-right: 4px;
             color: #4b5563;
         }

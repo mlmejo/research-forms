@@ -8,6 +8,7 @@ use App\Http\Controllers\SessionController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SubmissionController;
+use App\Http\Controllers\ToggleActivityController;
 use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
 
@@ -64,11 +65,14 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::post('/logout', [SessionController::class, 'destroy'])
-    ->name('logout')
-    ->middleware('auth');
+    ->name('logout');
 
 Route::post('/reset-password', ResetPasswordController::class)
     ->name('reset-password')
+    ->middleware(['auth', 'role:admin']);
+
+Route::post('/toggle-activity', ToggleActivityController::class)
+    ->name('toggle-activity')
     ->middleware(['auth', 'role:admin']);
 
 Route::get('/home', HomeController::class)->middleware('auth');

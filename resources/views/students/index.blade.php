@@ -18,14 +18,16 @@
                 </thead>
                 <tbody>
                     @foreach ($students as $student)
-                        <td>{{ $student->user->username }}</td>
-                        <td>{{ $student->user->full_name }}</td>
-                        <td>{{ $student->department }}</td>
-                        <td>{{ $student->course }}</td>
-                        <td>{{ $student->year_level }}</td>
-                        <td>
-                            <a href="{{ route('students.edit', $student) }}">Edit</a>
-                        </td>
+                        <tr>
+                            <td>{{ $student->user->username }}</td>
+                            <td>{{ $student->user->full_name }}</td>
+                            <td>{{ $student->department }}</td>
+                            <td>{{ $student->course }}</td>
+                            <td>{{ $student->year_level }}</td>
+                            <td>
+                                <a href="{{ route('students.edit', $student) }}">Edit</a>
+                            </td>
+                        </tr>
                     @endforeach
                 </tbody>
             </table>

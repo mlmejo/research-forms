@@ -23,12 +23,12 @@ class RegisterController extends Controller
     {
         $request->validate([
             'first_name' => 'required|string',
-            'middle_name' => 'sometimes|required|string',
+            'middle_name' => 'sometimes',
             'last_name' => 'required|string',
             'department' => 'required|string',
             'course' => 'required|string',
             'year_level' => ['required', Rule::in(array_column(YearLevel::cases(), 'value'))],
-            'student_id' => 'required|unique:students',
+            'student_id' => 'required|unique:users,username',
             'adviser' => 'required|string',
             'password' => 'required|string|confirmed',
         ]);
