@@ -29,6 +29,7 @@ class RegisterController extends Controller
             'course' => 'required|string',
             'year_level' => ['required', Rule::in(array_column(YearLevel::cases(), 'value'))],
             'student_id' => 'required|unique:students',
+            'adviser' => 'required|string',
             'password' => 'required|string|confirmed',
         ]);
 
@@ -44,11 +45,12 @@ class RegisterController extends Controller
             'department' => $request->department,
             'course' => $request->course,
             'year_level' => $request->enum('year_level', YearLevel::class),
+            'adviser' => $request->adviser,
         ]);
 
         $student->user()->associate($user)->save();
 
-        $student->assignRole('student');
+        $student->user->assignRole('student');
 
         return redirect(RouteServiceProvider::HOME);
     }

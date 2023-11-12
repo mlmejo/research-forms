@@ -69,15 +69,28 @@
             </div>
         </div>
 
-        <div class="form-group">
-            <label for="student_id">Student ID</label>
-            <input type="text" name="student_id" id="student_id" class="form-control @error('student_id') is-invalid @enderror" required />
+        <div class="row mb-3">
+            <div class="col-12 col-md-6">
+                <label for="student_id">Student ID</label>
+                <input type="text" name="student_id" id="student_id" class="form-control @error('student_id') is-invalid @enderror" required />
 
-            @error('student_id')
-                <div class="invalid-feedback">
-                    {{ $message }}
-                </div>
-            @enderror
+                @error('student_id')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                @enderror
+            </div>
+
+            <div class="col-12 col-md-6">
+                <label for="adviser">Adviser</label>
+                <input type="text" name="adviser" id="adviser" class="form-control @error('adviser') is-invalid @enderror" required />
+
+                @error('adviser')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                @enderror
+            </div>
         </div>
 
         <div class="row mb-3">
@@ -94,7 +107,7 @@
 
             <div class="col-12 col-md-4 mb-3 mb-md-0">
                 <label for="course">Course</label>
-                <input type="text" name="course" id="course" class="form-control @error('course') is-invalid @enderror" autofocus required />
+                <input type="text" name="course" id="course" class="form-control @error('course') is-invalid @enderror" required />
 
                 @error('course')
                     <div class="invalid-feedback">
@@ -120,14 +133,16 @@
             </div>
         </div>
 
-        <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password" name="password" id="password" class="form-control" required />
-        </div>
+        <div class="row mb-3">
+            <div class="col-12 col-md-6">
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" class="form-control" required />
+            </div>
 
-        <div class="form-group">
-            <label for="password_confirmation">Confirm Password</label>
-            <input type="password" name="password_confirmation" id="password_confirmation" class="form-control" required />
+            <div class="col-12 col-md-6">
+                <label for="password_confirmation">Confirm Password</label>
+                <input type="password" name="password_confirmation" id="password_confirmation" class="form-control" required />
+            </div>
         </div>
 
         <div class="d-flex align-items-center justify-content-between">

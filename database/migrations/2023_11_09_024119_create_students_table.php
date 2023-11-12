@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('department');
             $table->string('course');
             $table->enum('year_level', array_column(YearLevel::cases(), 'value'));
+            $table->string('adviser');
             $table->timestamps();
         });
     }
