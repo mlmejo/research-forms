@@ -13,6 +13,7 @@ class Submission extends Model
     protected $fillable = [
         'original_filename',
         'path',
+        'is_approved',
     ];
 
     public function student(): BelongsTo

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FormApprovalController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\ResearchFormController;
@@ -28,6 +29,10 @@ Route::get('/', WelcomeController::class)->name('welcome')->middleware('guest');
 Route::resource('staff', StaffController::class)->middleware(['auth', 'role:admin']);
 
 Route::resource('students', StudentController::class)->middleware('auth');
+
+Route::put('/submissions/{submission}/change-approval', FormApprovalController::class)
+    ->name('submissions.change-approval')
+    ->middleware(['auth', 'role:admin']);
 
 Route::get('/research-forms/submissions', [SubmissionController::class, 'index'])
     ->name('research-forms.submissions.index')

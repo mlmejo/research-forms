@@ -42,28 +42,39 @@
                             </td>
                             <td>
                                 @if (
-                                    !$student->submissions()->where('research_form_id', $researchForm->id)
+                                    $student->submissions()->where('research_form_id', $researchForm->id)
                                         ->exists()
                                 )
                                     N/A
                                 @else
                                     <span>
-                                        \Carbon\Carbon::parse(
-                                            $student->submissions
-                                                ->where('research_form_id', request()->query('formId', 1))
-                                                ->first()->value('created_at')
-                                        )->toDayDateTimeString()
+                                        {{ \Carbon\Carbon::parse($student->submissions->where('research_form_id', request()->query('formId', 1))->first()->value('created_at'))->toDayDateTimeString() }}
                                     </span>
                                 @endif
                             </td>
                             <td>
                                 @if (
-                                    !$student->submissions()->where('research_form_id', $researchForm->id)
+                                    $student->submissions()->where('research_form_id', request()->query('formId', 1))
                                         ->exists()
                                 )
-                                    <span class="text-danger">Missing</span>
-                                @else
-                                    <span class="text-success">Submitted</span>
+                                    @php
+                                        $submission = \App\Models\Submission::where(['student_id' => $student->id, 'research_form_id' => request()->query('formId', 1)])->first();
+                                    @endphp
+
+                                    <form action="{{ route('submissions.change-approval', $submission) }}" method="post">
+                                        @csrf
+                                        @method('PUT')
+
+                                        @if ($submission->is_approved)
+                                            <button type="submit" class="badge badge-pill badge-danger" style="border: 0;">
+                                                Reject This Form
+                                            </button>
+                                        @else
+                                            <button type="submit" class="badge badge-pill badge-success" style="border: 0;">
+                                                Accept This Form
+                                            </button>
+                                        @endif
+                                    </form>
                                 @endif
                             </td>
                         </tr>
