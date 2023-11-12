@@ -3,6 +3,7 @@
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\ResearchFormController;
+use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\StudentController;
@@ -32,16 +33,25 @@ Route::get('/research-forms/submissions', [SubmissionController::class, 'index']
     ->middleware(['auth']);
 
 Route::middleware('auth')->group(function () {
-    Route::get('/research-forms/{research_form}/submissions/create', [SubmissionController::class, 'create'])
-        ->name('research-forms.submissions.create');
+    Route::get(
+        '/research-forms/{research_form}/submissions/create',
+        [SubmissionController::class, 'create'],
+    )->name('research-forms.submissions.create');
 
-    Route::post('/research-forms/{research_form}/submissions/create', [SubmissionController::class, 'store']);
+    Route::post(
+        '/research-forms/{research_form}/submissions/create',
+        [SubmissionController::class, 'store'],
+    );
 
-    Route::get('/research-forms/{research_form}/submissions/{student}', [SubmissionController::class, 'show'])
-        ->name('research-forms.submissions.show');
+    Route::get(
+        '/research-forms/{research_form}/submissions/{student}',
+        [SubmissionController::class, 'show']
+    )->name('research-forms.submissions.show');
 
-    Route::get('/research-forms/{research_form}/submissions/edit', [SubmissionController::class, 'edit'])
-        ->name('research-forms.submissions.edit');
+    Route::get(
+        '/research-forms/{research_form}/submissions/edit',
+        [SubmissionController::class, 'edit']
+    )->name('research-forms.submissions.edit');
 });
 
 Route::resource('research-forms', ResearchFormController::class)
@@ -56,5 +66,9 @@ Route::middleware('guest')->group(function () {
 Route::post('/logout', [SessionController::class, 'destroy'])
     ->name('logout')
     ->middleware('auth');
+
+Route::post('/reset-password', ResetPasswordController::class)
+    ->name('reset-password')
+    ->middleware(['auth', 'role:admin']);
 
 Route::get('/home', HomeController::class)->middleware('auth');

@@ -11,13 +11,29 @@
         </div>
 
         <div class="table-responsive">
-            <table class="table table-striped" id="table">
+            <table class="table table-sm table-striped" id="table">
                 <thead>
                     <tr>
+                        <th>Employee ID</th>
                         <th>Full Name</th>
+                        <th>Status</th>
                         <th>Action</th>
                     </tr>
                 </thead>
+                <tbody>
+                    @foreach ($users as $user)
+                        <tr>
+                            <td>{{ $user->username }}</td>
+                            <td>{{ $user->full_name }}</td>
+                            <td>
+                                {{ ucfirst($user->roles[0]->name) }}
+                            </td>
+                            <td>
+                                <a href="{{ route('staff.edit', $user) }}">Edit</a>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
             </table>
         </div>
     </div>

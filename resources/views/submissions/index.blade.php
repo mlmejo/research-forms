@@ -23,7 +23,6 @@
                         <th>Leader Name</th>
                         <th>Adviser</th>
                         <th>Date & Time</th>
-                        <th>Edit</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -48,9 +47,6 @@
                                             ->first()->value('created_at')
                                     )->toDayDateTimeString()
                                 }}
-                            </td>
-                            <td>
-                                <a href="#">Edit</a>
                             </td>
                         </tr>
                     @endforeach

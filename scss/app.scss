@@ -2,6 +2,8 @@ $font-size-base: 0.875rem;
 
 $primary: #2f48a4;
 
+$form-check-input-checked-color: $primary;
+
 @import "../node_modules/bootstrap/scss/bootstrap";
 
 .btn {

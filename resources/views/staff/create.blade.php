@@ -4,8 +4,19 @@
     <div class="p-3 bg-white">
         <h2 class="h4 mb-4 font-weight-bold">New Staff</h2>
 
-        <form action="" method="post">
+        <form action="{{ route('staff.store') }}" method="post">
             @csrf
+
+            <div class="form-group">
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" id="adviser" name="role" value="adviser" checked />
+                    <label class="form-check-label" for="adviser">Adviser</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" id="librarian" name="role" value="librarian" />
+                    <label class="form-check-label" for="librarian">Librarian</label>
+                </div>
+            </div>
 
             <div class="row mb-3">
                 <div class="col">

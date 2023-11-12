@@ -9,9 +9,25 @@
                 <thead>
                     <tr>
                         <th>Student ID</th>
+                        <th>Full Name</th>
+                        <th>Department</th>
+                        <th>Course</th>
+                        <th>Year Level</th>
                         <th>Action</th>
                     </tr>
                 </thead>
+                <tbody>
+                    @foreach ($students as $student)
+                        <td>{{ $student->user->username }}</td>
+                        <td>{{ $student->user->full_name }}</td>
+                        <td>{{ $student->department }}</td>
+                        <td>{{ $student->course }}</td>
+                        <td>{{ $student->year_level }}</td>
+                        <td>
+                            <a href="{{ route('students.edit', $student) }}">Edit</a>
+                        </td>
+                    @endforeach
+                </tbody>
             </table>
         </div>
     </div>

@@ -59,9 +59,11 @@ class SubmissionController extends Controller
             'research_form_id' => $researchForm->id,
         ])
             ->join('research_forms', 'research_form_id', '=', 'research_forms.id')
+            ->join('students', 'student_id', '=', 'students.id')
+            ->join('users', 'students.user_id', '=', 'users.id')
             ->first();
 
-        $uri = asset('storage/' . explode('/', $submission->path)[1]);
+        $uri = asset('storage/'.explode('/', $submission->path)[1]);
 
         return view('submissions.show', [
             'submission' => $submission,

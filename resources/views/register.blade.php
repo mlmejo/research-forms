@@ -96,7 +96,7 @@
         <div class="row mb-3">
             <div class="col-12 col-md-4 mb-3 mb-md-0">
                 <label for="department">Department</label>
-                <input type="text" name="department" id="department" class="form-control @error('department') is-invalid @enderror" autofocus required />
+                <input type="text" name="department" id="department" class="form-control @error('department') is-invalid @enderror" required />
 
                 @error('department')
                     <div class="invalid-feedback">
