@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Enums\YearLevel;
+use App\Models\Course;
+use App\Models\Department;
 use App\Models\Student;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
@@ -16,7 +18,13 @@ class RegisterController extends Controller
 {
     public function create(): View
     {
-        return view('register');
+        return view('register', [
+            'departments' => Department::all(),
+            'courses' => Course::all(),
+            'advisers' => User::whereHas('roles', function ($query) {
+                $query->where('name', 'adviser');
+            })->get(),
+        ]);
     }
 
     public function store(Request $request): RedirectResponse
@@ -25,11 +33,11 @@ class RegisterController extends Controller
             'first_name' => 'required|string',
             'middle_name' => 'sometimes',
             'last_name' => 'required|string',
-            'department' => 'required|string',
-            'course' => 'required|string',
+            'department' => 'required|exists:departments,id',
+            'course' => 'required|exists:courses,id',
             'year_level' => ['required', Rule::in(array_column(YearLevel::cases(), 'value'))],
             'student_id' => 'required|unique:users,username',
-            'adviser' => 'required|string',
+            'adviser' => 'required|exists:users,id',
             'password' => 'required|string|confirmed',
         ]);
 
@@ -41,13 +49,17 @@ class RegisterController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
+        $department = Department::find($request->department);
+        $course = Course::find($request->course);
+        $adviser = User::find($request->adviser);
+
         $student = new Student([
-            'department' => $request->department,
-            'course' => $request->course,
             'year_level' => $request->enum('year_level', YearLevel::class),
-            'adviser' => $request->adviser,
         ]);
 
+        $student->department()->associate($department);
+        $student->course()->associate($course);
+        $student->adviser()->associate($adviser);
         $student->user()->associate($user)->save();
 
         $student->user->assignRole('student');

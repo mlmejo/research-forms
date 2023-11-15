@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Enums\YearLevel;
+use App\Models\Course;
+use App\Models\Department;
 use App\Models\Student;
+use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -18,7 +21,14 @@ class StudentController extends Controller
 
     public function edit(Student $student): View
     {
-        return view('students.edit', ['student' => $student]);
+        return view('students.edit', [
+            'student' => $student,
+            'courses' => Course::all(),
+            'departments' => Department::all(),
+            'advisers' => User::whereHas('roles', function ($query) {
+                $query->where('name', 'adviser');
+            })->get(),
+        ]);
     }
 
     public function update(Request $request, Student $student): RedirectResponse
@@ -44,13 +54,6 @@ class StudentController extends Controller
             'middle_name' => $request->middle_name,
             'last_name' => $request->last_name,
         ]);
-
-        $student->update($request->except(
-            'student_id',
-            'first_name',
-            'middle_name',
-            'last_name',
-        ));
 
         return redirect(route('students.index'))
             ->with('message', 'Student information updated successfully.');

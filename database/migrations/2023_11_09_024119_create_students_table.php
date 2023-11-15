@@ -1,6 +1,8 @@
 <?php
 
 use App\Enums\YearLevel;
+use App\Models\Course;
+use App\Models\Department;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -16,11 +18,15 @@ return new class extends Migration
         Schema::create('students', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
-            $table->string('department');
-            $table->string('course');
+            $table->foreignIdFor(Department::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Course::class)->constrained()->cascadeOnDelete();
             $table->enum('year_level', array_column(YearLevel::cases(), 'value'));
-            $table->string('adviser');
+            $table->unsignedBigInteger('adviser_id');
             $table->timestamps();
+
+            $table->foreign('adviser_id')
+                ->references('id')->on('users')
+                ->cascadeOnDelete();
         });
     }
 

@@ -20,6 +20,6 @@ class ToggleActivityController extends Controller
             'is_active' => ! $user->is_active,
         ]);
 
-        return redirect('/home');
+        return redirect(route('students.index'));
     }
 }

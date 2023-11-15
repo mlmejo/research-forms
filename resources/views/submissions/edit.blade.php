@@ -8,7 +8,8 @@
             @csrf
 
             <div class="custom-file">
-                <input type="file" class="custom-file-input @error('document') is-invalid @enderror" name="document" id="document" aria-describedby="Upload PDF document" required>
+                <input type="file" class="custom-file-input @error('document') is-invalid @enderror" name="document"
+                    id="document" aria-describedby="Upload PDF document" required>
                 <label class="custom-file-label" for="document">Choose file</label>
 
                 @error('document')

@@ -16,7 +16,8 @@
                     @foreach ($researchForms as $researchForm)
                         <tr>
                             <td>
-                                <a href="{{ $researchForm->submitted ? route('research-forms.submissions.edit', $researchForm) : route('research-forms.submissions.create', $researchForm) }}">
+                                <a
+                                    href="{{ $researchForm->submitted ? route('research-forms.submissions.edit', $researchForm) : route('research-forms.submissions.create', $researchForm) }}">
                                     {{ $researchForm->title }}
                                 </a>
                             </td>

@@ -30,7 +30,7 @@ class StaffController extends Controller
         $request->validate([
             'employee_id' => 'required|string|unique:users,username',
             'first_name' => 'required|string',
-            'middle_name' => 'sometimes|required|string',
+            'middle_name' => 'nullable|string',
             'last_name' => 'required|string',
             'password' => 'required|confirmed|string',
             'role' => ['required', Rule::in(['adviser', 'librarian'])],

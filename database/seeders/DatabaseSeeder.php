@@ -18,6 +18,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             RoleSeeder::class,
             ResearchFormSeeder::class,
+            DepartmentSeeder::class,
+            CourseSeeder::class,
         ]);
 
         $user = \App\Models\User::create([

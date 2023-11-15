@@ -21,6 +21,7 @@
                 <thead>
                     <tr>
                         <th>Student Name</th>
+                        <th>Department</th>
                         <th>Adviser</th>
                         <th>Date & Time</th>
                         <th>Status</th>
@@ -30,53 +31,51 @@
                     @foreach ($students as $student)
                         <tr>
                             <td>
-                                <a href="{{ route('research-forms.submissions.show', [
+                                <a
+                                    href="{{ route('research-forms.submissions.show', [
                                         'student' => $student,
                                         'research_form' => request()->query('formId', 1),
                                     ]) }}">
                                     {{ $student->user->full_name }}
                                 </a>
                             </td>
+                            <td>{{ $student->department->name }}</td>
                             <td>
-                                {{ $student->adviser }}
+                                {{ $student->adviser->full_name }}
                             </td>
                             <td>
-                                @if (
-                                    $student->submissions()->where('research_form_id', $researchForm->id)
-                                        ->exists()
-                                )
-                                    N/A
+                                @php
+                                    $submission = DB::table('submissions')
+                                        ->where('student_id', '=', $student->id)
+                                        ->where('research_form_id', '=', request()->query('formId', 1))
+                                        ->first();
+                                @endphp
+
+                                @if (isset($submission))
+                                    <span>{{ $submission->created_at }}</span>
                                 @else
-                                    <span>
-                                        {{ \Carbon\Carbon::parse($student->submissions->where('research_form_id', request()->query('formId', 1))->first()->value('created_at'))->toDayDateTimeString() }}
-                                    </span>
+                                    N/A
                                 @endif
                             </td>
-                            <td>
-                                @if (
-                                    $student->submissions()->where('research_form_id', request()->query('formId', 1))
-                                        ->exists()
-                                )
-                                    @php
-                                        $submission = \App\Models\Submission::where(['student_id' => $student->id, 'research_form_id' => request()->query('formId', 1)])->first();
-                                    @endphp
+                            @if (!isset($submission))
+                                <td class="text-danger">Missing</td>
+                            @else
+                                <td>
+                                    @switch ($submission->status)
+                                        @case ('pending')
+                                            <span class="text-warning">Pending</span>
+                                        @break
 
-                                    <form action="{{ route('submissions.change-approval', $submission) }}" method="post">
-                                        @csrf
-                                        @method('PUT')
+                                        @case ('approved')
+                                            <span class="text-success">Approved</span>
+                                        @break
 
-                                        @if ($submission->is_approved)
-                                            <button type="submit" class="badge badge-pill badge-danger" style="border: 0;">
-                                                Reject This Form
-                                            </button>
-                                        @else
-                                            <button type="submit" class="badge badge-pill badge-success" style="border: 0;">
-                                                Accept This Form
-                                            </button>
-                                        @endif
-                                    </form>
-                                @endif
-                            </td>
+                                        @case ('rejected')
+                                            <span class="text-danger">Rejected</span>
+                                        @break
+                                    @endswitch
+                                </td>
+                            @endif
                         </tr>
                     @endforeach
                 </tbody>
@@ -84,3 +83,4 @@
         </div>
     </div>
 @endsection
+

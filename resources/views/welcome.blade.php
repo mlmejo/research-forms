@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -16,7 +17,9 @@
         body {
             display: flex;
             align-items: center;
-            background: #e5e7eb;
+            background-image: url('/smcc-campus.webp');
+            background-size: cover;
+            background-position: center;
         }
 
         .form-login {
@@ -26,17 +29,20 @@
         }
     </style>
 </head>
+
 <body>
     <form action="{{ route('login') }}" method="post" class="form-login p-3 shadow bg-white">
         @csrf
 
         <div class="mb-3 text-center">
-            <img src="{{ asset('application-logo.webp') }}" alt="Saint Michael College of Caraga" height="64" width="64" />
+            <img src="{{ asset('application-logo.webp') }}" alt="Saint Michael College of Caraga" height="64"
+                width="64" />
         </div>
 
         <div class="form-group">
-            <label for="username">Username or Student ID</label>
-            <input type="text" name="username" id="username" class="form-control @error('username') is-invalid @enderror" autofocus required />
+            <label for="username">Employee or Student ID</label>
+            <input type="text" name="username" id="username"
+                class="form-control @error('username') is-invalid @enderror" autofocus required />
 
             @error('username')
                 <div class="invalid-feedback">
@@ -62,4 +68,5 @@
         </span>
     </form>
 </body>
+
 </html>

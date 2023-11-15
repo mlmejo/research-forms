@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignIdFor(ResearchForm::class)->constrained()->cascadeOnDelete();
             $table->string('original_filename');
             $table->string('path');
-            $table->boolean('is_approved')->default(false);
+            $table->string('status')->default('pending');
             $table->timestamps();
         });
     }

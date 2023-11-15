@@ -11,11 +11,26 @@ class Student extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['department', 'course', 'year_level', 'adviser'];
+    protected $fillable = ['year_level'];
 
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function department(): BelongsTo
+    {
+        return $this->belongsTo(Department::class);
+    }
+
+    public function course(): BelongsTo
+    {
+        return $this->belongsTo(Course::class);
+    }
+
+    public function adviser(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'adviser_id', 'id');
     }
 
     public function submissions(): HasMany

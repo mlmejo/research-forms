@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -26,14 +27,15 @@
         }
     </style>
 </head>
+
 <body>
     <form action="{{ route('logout') }}" method="post" class="form-container p-3 shadow bg-white">
         @csrf
 
         <div class="mb-3 text-center">
-            <img src="{{ asset('application-logo.webp') }}" alt="Saint Michael College of Caraga" height="64" width="64" />
+            <img src="{{ asset('application-logo.webp') }}" alt="Saint Michael College of Caraga" height="64"
+                width="64" />
         </div>
-
 
         <p class="text-center text-muted">
             Your account has been disabled, please contact your system administrator.
@@ -44,4 +46,5 @@
         </button>
     </form>
 </body>
+
 </html>

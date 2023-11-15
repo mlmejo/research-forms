@@ -50,20 +50,28 @@ class SubmissionController extends Controller
         return redirect(route('research-forms.index'));
     }
 
-    public function show(ResearchForm $researchForm, Student $student)
+    public function show(Student $student, ResearchForm $researchForm)
     {
-        $submission = DB::table('submissions')->where([
-            'student_id' => $student->id,
-            'research_form_id' => $researchForm->id,
-        ])
+        $submission = DB::table('submissions')
+            ->select('submissions.id', 'submissions.path', 'submissions.status')
+            ->where([
+                'student_id' => $student->id,
+                'research_form_id' => $researchForm->id,
+            ])
             ->join('research_forms', 'research_form_id', '=', 'research_forms.id')
             ->join('students', 'student_id', '=', 'students.id')
             ->join('users', 'students.user_id', '=', 'users.id')
             ->first();
 
-        $uri = asset('storage/'.explode('/', $submission->path)[1]);
+        $uri = "";
+
+        if (isset($submission)) {
+            $uri = asset('storage/' . explode('/', $submission->path)[1]);
+        }
 
         return view('submissions.show', [
+            'researchForm' => $researchForm,
+            'student' => $student,
             'submission' => $submission,
             'uri' => $uri,
         ]);

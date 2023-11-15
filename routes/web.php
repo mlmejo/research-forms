@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\FormApprovalController;
+use App\Http\Controllers\SubmissionStatusController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\ResearchFormController;
@@ -39,18 +40,23 @@ Route::get('/research-forms/submissions', [SubmissionController::class, 'index']
     ->middleware(['auth']);
 
 Route::middleware('auth')->group(function () {
+    Route::post(
+        '/submissions/{submission}/change-status',
+        SubmissionStatusController::class
+    )->name('submissions.change-status');
+
     Route::get(
         '/research-forms/{research_form}/submissions/create',
-        [SubmissionController::class, 'create'],
+        [SubmissionController::class, 'create']
     )->name('research-forms.submissions.create');
 
     Route::post(
         '/research-forms/{research_form}/submissions/create',
-        [SubmissionController::class, 'store'],
+        [SubmissionController::class, 'store']
     );
 
     Route::get(
-        '/research-forms/{research_form}/submissions/{student}',
+        '/students/{student}/research-forms/{research_form}/submissions',
         [SubmissionController::class, 'show']
     )->name('research-forms.submissions.show');
 

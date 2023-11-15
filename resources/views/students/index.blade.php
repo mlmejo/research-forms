@@ -13,6 +13,7 @@
                         <th>Department</th>
                         <th>Course</th>
                         <th>Year Level</th>
+                        <th>Status</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -21,9 +22,11 @@
                         <tr>
                             <td>{{ $student->user->username }}</td>
                             <td>{{ $student->user->full_name }}</td>
-                            <td>{{ $student->department }}</td>
-                            <td>{{ $student->course }}</td>
+                            <td>{{ $student->department->name }}</td>
+                            <td>{{ $student->course->name }}</td>
                             <td>{{ $student->year_level }}</td>
+                            <td class="{{ $student->user->is_active ? 'text-success' : 'text-danger' }}">
+                                {{ $student->user->is_active ? 'Active' : 'Inactive' }}</td>
                             <td>
                                 <a href="{{ route('students.edit', $student) }}">Edit</a>
                             </td>
@@ -34,3 +37,4 @@
         </div>
     </div>
 @endsection
+
