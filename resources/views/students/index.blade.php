@@ -25,8 +25,15 @@
                             <td>{{ $student->department->name }}</td>
                             <td>{{ $student->course->name }}</td>
                             <td>{{ $student->year_level }}</td>
-                            <td class="{{ $student->user->is_active ? 'text-success' : 'text-danger' }}">
-                                {{ $student->user->is_active ? 'Active' : 'Inactive' }}</td>
+                            <td>
+                                <form action="{{ route('toggle-activity') }}" method="post" id="status-form">
+                                    @csrf
+                                    <input type="hidden" name="user_id" value="{{ $student->user->id }}">
+                                </form>
+                                <a href="{{ route('toggle-activity') }}" class="{{ $student->user->is_active ? 'text-success' : 'text-danger' }}" onclick="event.preventDefault();document.getElementById('status-form').submit();">
+                                    {{ $student->user->is_active ? 'Active' : 'Disabled'}}
+                                </a>
+                            </td>
                             <td>
                                 <a href="{{ route('students.edit', $student) }}">Edit</a>
                             </td>

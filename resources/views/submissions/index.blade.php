@@ -41,7 +41,7 @@
                             </td>
                             <td>{{ $student->department->name }}</td>
                             <td>
-                                {{ $student->adviser->full_name }}
+                                {{ $student->adviser }}
                             </td>
                             <td>
                                 @php

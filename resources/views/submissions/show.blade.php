@@ -26,10 +26,12 @@
                                 <span class="text-danger">Rejected</span>
                             @break
                         @endswitch
+                    @else
+                        <span class="text-danger">Missing</span>
                     @endif
                 </p>
                 <p class="text-muted mb-2">
-                    Adviser: {{ $student->adviser->full_name }}
+                    Adviser: {{ $student->adviser }}
                 </p>
             </div>
 

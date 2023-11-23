@@ -55,6 +55,8 @@ class StudentController extends Controller
             'last_name' => $request->last_name,
         ]);
 
+        $student->update($request->only('department', 'course', 'year_level', 'adviser`'));
+
         return redirect(route('students.index'))
             ->with('message', 'Student information updated successfully.');
     }

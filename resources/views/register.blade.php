@@ -39,7 +39,7 @@
                 width="64" />
         </div>
 
-        <div class="row mb-3">
+        <div class="row my-3">
             <div class="col-12 col-md-4 mb-3 mb-md-0">
                 <label for="first_name">First Name</label>
                 <input type="text" name="first_name" id="first_name"
@@ -92,12 +92,7 @@
 
             <div class="col-12 col-md-6">
                 <label for="adviser">Adviser</label>
-                <select name="adviser" id="adviser" class="custom-select">
-                    <option value="" selected>Select option</option>
-                    @foreach ($advisers as $adviser)
-                        <option value="{{ $adviser->id }}">{{ $adviser->full_name }}</option>
-                    @endforeach
-                </select>
+                <input type="text" name="adviser" id="adviser" class="form-control @error('adviser') is-invalid @enderror" required>
 
                 @error('adviser')
                     <div class="invalid-feedback">
@@ -125,7 +120,7 @@
             </div>
 
             <div class="col-12 col-md-4 mb-3 mb-md-0">
-                <label for="course">Course</label>
+                <label for="course">Course / Strand</label>
                 <select name="course" id="course" class="custom-select">
                     <option value="" selected>Select option</option>
                     @foreach ($courses as $course)

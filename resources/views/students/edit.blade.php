@@ -65,16 +65,7 @@
 
                 <div class="col-12 col-md-4">
                     <label for="adviser">Adviser</label>
-                    <select name="adviser" id="adviser" class="custom-select">
-                        <option value="" selected>Select option</option>
-                        @foreach ($advisers as $adviser)
-                            @if ($adviser->id === $student->adviser->id)
-                                <option value="{{ $adviser->id }}" selected>{{ $adviser->full_name }}</option>
-                            @else
-                                <option value="{{ $adviser->id }}">{{ $adviser->full_name }}</option>
-                            @endif
-                        @endforeach
-                    </select>
+                    <input type="text" name="adviser" id="adviser" value="{{ $student->adviser }}" class="form-control @error('adviser') is-invalid @enderror">
 
                     @error('adviser')
                         <div class="invalid-feedback">
@@ -178,24 +169,6 @@
 
             <button type="submit" class="btn btn-primary">
                 Reset Password
-            </button>
-        </form>
-    </div>
-
-    <div class="mt-3 p-3 bg-white">
-        <h2 class="h4 mb-4 font-weight-bold">Disable Account</h2>
-
-        <form action="{{ route('toggle-activity') }}" method="post">
-            @csrf
-
-            <p class="text-muted">
-                This student cannot log in unless you enable his/her account.
-            </p>
-
-            <input type="hidden" name="user_id" value="{{ $student->user->id }}" />
-
-            <button type="submit" class="btn {{ $student->user->is_active ? 'btn-danger' : 'btn-primary' }}">
-                {{ $student->user->is_active ? 'Disable' : 'Enable' }}
             </button>
         </form>
     </div>

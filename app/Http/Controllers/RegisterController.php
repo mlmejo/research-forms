@@ -21,9 +21,6 @@ class RegisterController extends Controller
         return view('register', [
             'departments' => Department::all(),
             'courses' => Course::all(),
-            'advisers' => User::whereHas('roles', function ($query) {
-                $query->where('name', 'adviser');
-            })->get(),
         ]);
     }
 
@@ -37,7 +34,7 @@ class RegisterController extends Controller
             'course' => 'required|exists:courses,id',
             'year_level' => ['required', Rule::in(array_column(YearLevel::cases(), 'value'))],
             'student_id' => 'required|unique:users,username',
-            'adviser' => 'required|exists:users,id',
+            'adviser' => 'required|string',
             'password' => 'required|string|confirmed',
         ]);
 
@@ -47,19 +44,19 @@ class RegisterController extends Controller
             'last_name' => $request->last_name,
             'username' => $request->student_id,
             'password' => Hash::make($request->password),
+            'is_active' => false,
         ]);
 
         $department = Department::find($request->department);
         $course = Course::find($request->course);
-        $adviser = User::find($request->adviser);
 
         $student = new Student([
             'year_level' => $request->enum('year_level', YearLevel::class),
+            'adviser' => $request->adviser,
         ]);
 
         $student->department()->associate($department);
         $student->course()->associate($course);
-        $student->adviser()->associate($adviser);
         $student->user()->associate($user)->save();
 
         $student->user->assignRole('student');

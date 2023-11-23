@@ -21,12 +21,8 @@ return new class extends Migration
             $table->foreignIdFor(Department::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Course::class)->constrained()->cascadeOnDelete();
             $table->enum('year_level', array_column(YearLevel::cases(), 'value'));
-            $table->unsignedBigInteger('adviser_id');
+            $table->string('adviser');
             $table->timestamps();
-
-            $table->foreign('adviser_id')
-                ->references('id')->on('users')
-                ->cascadeOnDelete();
         });
     }
 

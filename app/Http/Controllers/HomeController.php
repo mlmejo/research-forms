@@ -17,6 +17,8 @@ class HomeController extends Controller
         return view('home', [
             'studentCount' => Student::count(),
             'submissionCount' => Submission::count(),
+            'approvedCount' => Submission::where('status', 'approved')->count(),
+            'rejectedCount' => Submission::where('status', 'rejected')->count(),
             'staffCount' => $staffCount,
         ]);
     }
