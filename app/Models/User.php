@@ -24,7 +24,6 @@ class User extends Authenticatable
         'last_name',
         'username',
         'password',
-        'is_active',
     ];
 
     /**
@@ -50,5 +49,10 @@ class User extends Authenticatable
     public function getFullNameAttribute()
     {
         return $this->last_name.', '.$this->first_name.' '.$this->middle_name;
+    }
+
+    public function announcements()
+    {
+        return $this->hasMany(Announcement::class);
     }
 }

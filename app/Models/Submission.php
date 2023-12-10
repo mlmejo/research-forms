@@ -14,6 +14,9 @@ class Submission extends Model
         'original_filename',
         'path',
         'status',
+        'remark',
+        'school_year',
+        'semester',
     ];
 
     public function student(): BelongsTo

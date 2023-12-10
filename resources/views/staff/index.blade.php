@@ -3,10 +3,10 @@
 @section('content')
     <div class="p-3 bg-white">
         <div class="d-flex mb-4 align-items-center justify-content-between">
-            <h2 class="h4 mb-0 font-weight-bold">Staff Management</h2>
+            <h2 class="h4 mb-0 font-weight-bold">Admin Management</h2>
 
-            <a href="{{ route('staff.create') }}" class="btn btn-primary">
-                New Staff
+            <a href="{{ route('staff.create') }}" class="btn btn-sm btn-primary">
+                New Admin
             </a>
         </div>
 

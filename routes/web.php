@@ -1,16 +1,17 @@
 <?php
 
+use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\FormApprovalController;
-use App\Http\Controllers\SubmissionStatusController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ResearchFormController;
 use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SubmissionController;
-use App\Http\Controllers\ToggleActivityController;
+use App\Http\Controllers\SubmissionStatusController;
 use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
 
@@ -66,8 +67,19 @@ Route::middleware('auth')->group(function () {
     )->name('research-forms.submissions.edit');
 });
 
-Route::resource('research-forms', ResearchFormController::class)
+Route::get('/research-forms', [ResearchFormController::class, 'index'])
+    ->name('research-forms.index')
     ->middleware(['auth', 'role:student']);
+
+Route::controller(ResearchFormController::class)->group(function () {
+    Route::get('/research-forms/create', 'create')
+        ->name('research-forms.create')
+        ->middleware(['auth', 'role:admin']);
+
+    Route::post('/research-forms', 'store')
+        ->name('research-forms.store')
+        ->middleware(['auth', 'role:admin']);
+});
 
 Route::middleware('guest')->group(function () {
     Route::get('/register', [RegisterController::class, 'create'])->name('register');
@@ -82,8 +94,11 @@ Route::post('/reset-password', ResetPasswordController::class)
     ->name('reset-password')
     ->middleware(['auth', 'role:admin']);
 
-Route::post('/toggle-activity', ToggleActivityController::class)
-    ->name('toggle-activity')
+Route::resource('announcements', AnnouncementController::class)
+    ->except(['index', 'show'])
+    ->middleware(['auth', 'role:admin']);
+
+Route::resource('reports', ReportController::class)
     ->middleware(['auth', 'role:admin']);
 
 Route::get('/home', HomeController::class)->middleware('auth');

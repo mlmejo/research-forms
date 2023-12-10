@@ -37,6 +37,16 @@
         <div class="mb-3 text-center">
             <img src="{{ asset('application-logo.webp') }}" alt="Saint Michael College of Caraga" height="64"
                 width="64" />
+            <h1 class="h4 ml-2 mb-0 d-inline-block font-weight-bold ">Research Forms Submission</h1>
+        </div>
+
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="is_leader" id="inlineRadio1" value="1" checked>
+            <label class="form-check-label" for="inlineRadio1">Leader</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="is_leader" id="inlineRadio2" value="0">
+            <label class="form-check-label" for="inlineRadio2">Member</label>
         </div>
 
         <div class="row my-3">
@@ -78,7 +88,7 @@
         </div>
 
         <div class="row mb-3">
-            <div class="col-12 col-md-6">
+            <div class="col-12 col-md-4">
                 <label for="student_id">Student ID</label>
                 <input type="text" name="student_id" id="student_id"
                     class="form-control @error('student_id') is-invalid @enderror" required />
@@ -90,11 +100,24 @@
                 @enderror
             </div>
 
-            <div class="col-12 col-md-6">
+            <div class="col-12 col-md-4">
                 <label for="adviser">Adviser</label>
-                <input type="text" name="adviser" id="adviser" class="form-control @error('adviser') is-invalid @enderror" required>
+                <input type="text" name="adviser" id="adviser"
+                    class="form-control @error('adviser') is-invalid @enderror" required>
 
                 @error('adviser')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                @enderror
+            </div>
+
+            <div class="col-12 col-md-4">
+                <label for="control_number">Control Number</label>
+                <input type="text" name="control_number" id="control_number"
+                    class="form-control @error('control_number') is-invalid @enderror" required>
+
+                @error('control_number')
                     <div class="invalid-feedback">
                         {{ $message }}
                     </div>

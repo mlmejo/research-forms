@@ -23,7 +23,7 @@
                             </td>
                             <td>
                                 @if ($researchForm->submitted)
-                                    <span class="text-success">Submitted</span>
+                                    <span class="text-warning">Pending</span>
                                 @else
                                     <span class="text-danger">Missing</span>
                                 @endif

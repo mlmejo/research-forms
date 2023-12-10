@@ -7,14 +7,13 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rule;
 
 class StaffController extends Controller
 {
     public function index(): View
     {
         $users = User::whereHas('roles', function ($query) {
-            $query->whereIn('name', ['adviser', 'librarian']);
+            $query->whereIn('name', ['admin']);
         })->get();
 
         return view('staff.index', ['users' => $users]);
@@ -28,23 +27,20 @@ class StaffController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'employee_id' => 'required|string|unique:users,username',
+            'username' => 'required|unique:users|string',
             'first_name' => 'required|string',
-            'middle_name' => 'nullable|string',
             'last_name' => 'required|string',
             'password' => 'required|confirmed|string',
-            'role' => ['required', Rule::in(['adviser', 'librarian'])],
         ]);
 
         $user = User::create([
-            'username' => $request->employee_id,
+            'username' => $request->username,
             'first_name' => $request->first_name,
-            'middle_name' => $request->input('middle_name', ''),
             'last_name' => $request->last_name,
             'password' => Hash::make($request->password),
         ]);
 
-        $user->assignRole($request->role);
+        $user->assignRole('admin');
 
         return redirect(route('staff.index'));
     }
@@ -56,21 +52,16 @@ class StaffController extends Controller
 
     public function update(Request $request, User $staff): RedirectResponse
     {
-        $request->validate([
-            'employee_id' => [
-                'required',
-                'string',
-                Rule::unique('users', 'username')->ignore($staff),
-            ],
+        $validated = $request->validate([
+            'username' => 'required|string|unique:users',
             'first_name' => 'required|string',
             'middle_name' => 'sometimes|required|string',
             'last_name' => 'required|string',
-            'role' => ['required', Rule::in(['adviser', 'librarian'])],
         ]);
 
-        $staff->update($request->except('role'));
+        $staff->update($validated);
 
-        $staff->syncRoles([$request->role]);
+        $staff->syncRoles(['admin']);
 
         return redirect(route('staff.index'))
             ->with('message', 'Staff information udpated successfully.');

@@ -8,12 +8,25 @@
 
     <link rel="stylesheet" href="{{ asset('css/app.min.css') }}" />
     <link href="https://cdn.datatables.net/v/bs4/dt-1.13.7/datatables.min.css" rel="stylesheet" />
+    <style>
+        @media print {
+            table {
+                border: 3px solid black;
+            }
 
-    <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+            th,
+            td {
+                border: 1px solid black;
+            }
+        }
+    </style>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous">
     </script>
     <script defer src="https://cdn.datatables.net/v/bs4/dt-1.13.7/datatables.min.js"></script>
+    <script defer src=" https://cdn.jsdelivr.net/npm/printthis@0.1.5/printThis.min.js "></script>
     <script defer src="{{ asset('js/app.js') }}"></script>
 
     <style>
@@ -91,7 +104,7 @@
 <body>
     <nav class="navbar navbar-dark sticky-top bg-primary flex-md-nowrap p-0 shadow">
         <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="#">
-            <img src="{{ asset('application-logo.webp') }}" alt="SMCC" width="32" height="32" />
+            Research Form Submission
         </a>
         <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-toggle="collapse"
             data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
@@ -170,7 +183,19 @@
                                             <path
                                                 d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c1.8 0 3.5-.2 5.3-.5c-76.3-55.1-99.8-141-103.1-200.2c-16.1-4.8-33.1-7.3-50.7-7.3H178.3zm308.8-78.3l-120 48C358 277.4 352 286.2 352 296c0 63.3 25.9 168.8 134.8 214.2c5.9 2.5 12.6 2.5 18.5 0C614.1 464.8 640 359.3 640 296c0-9.8-6-18.6-15.1-22.3l-120-48c-5.7-2.3-12.1-2.3-17.8 0zM591.4 312c-3.9 50.7-27.2 116.7-95.4 149.7V273.8L591.4 312z" />
                                         </svg>
-                                        Staff Management
+                                        Admin Management
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link {{ Request::routeIs('reports.*') ? 'active' : '' }}"
+                                        href="{{ route('reports.index') }}">
+                                        <svg fill="currentColor" class="font-awesome" xmlns="http://www.w3.org/2000/svg"
+                                            height="16" width="18"
+                                            viewBox="0 0 576 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2023 Fonticons, Inc.-->
+                                            <path
+                                                d="M0 64C0 28.7 28.7 0 64 0H224V128c0 17.7 14.3 32 32 32H384V288H216c-13.3 0-24 10.7-24 24s10.7 24 24 24H384V448c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V64zM384 336V288H494.1l-39-39c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l80 80c9.4 9.4 9.4 24.6 0 33.9l-80 80c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l39-39H384zm0-208H256V0L384 128z" />
+                                        </svg>
+                                        Reports
                                     </a>
                                 </li>
                             @endif
@@ -226,7 +251,8 @@
             </div>
         </div>
     </div>
+
+    @stack('scripts')
 </body>
 
 </html>
-

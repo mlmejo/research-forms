@@ -30,9 +30,15 @@
                         <span class="text-danger">Missing</span>
                     @endif
                 </p>
-                <p class="text-muted mb-2">
+                <p class="text-muted mb-4">
                     Adviser: {{ $student->adviser }}
                 </p>
+                @isset($submission->remark)
+                    <h2 class="h6 mb-0 font-weight-bold">Remarks:</h2>
+                    <p class="mb-2">
+                        {{ $submission->remark }}
+                    </p>
+                @endisset
             </div>
 
             @if (isset($submission))
@@ -50,7 +56,35 @@
                             Reject
                         </option>
                     </select>
-                    <button type="submit" class="btn mt-2 btn-primary">Submit</button>
+                    <div>
+                        <button type="submit" class="btn btn-sm mt-2 btn-primary">Submit</button>
+                        <button type="button" id="remark" class="btn d-none btn-sm mt-2 btn-secondary"
+                            data-toggle="modal" data-target="#remark-modal">Add
+                            remark</button>
+
+                        <div class="modal fade" id="remark-modal" tabindex="-1" aria-labelledby="remark-modalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="remark-modalLabel">Submission Remark</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <textarea name="remark" id="remark" cols="30" rows="10" class="form-control"></textarea>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-sm btn-secondary"
+                                            data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-sm btn-primary" data-dismiss="modal">Save
+                                            changes</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </form>
             @endif
         </div>
@@ -66,3 +100,20 @@
     </div>
 @endsection
 
+@push('scripts')
+    <script>
+        $(function() {
+            if ($("#status").val() === "rejected") {
+                $("#remark").toggleClass("d-none");
+            }
+
+            $("#status").on("change", function() {
+                if ($(this).val() === "rejected") {
+                    $("#remark").removeClass("d-none");
+                } else {
+                    $("#remark").addClass("d-none");
+                }
+            });
+        });
+    </script>
+@endpush

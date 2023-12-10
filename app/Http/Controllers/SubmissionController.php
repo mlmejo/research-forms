@@ -2,23 +2,46 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Department;
 use App\Models\ResearchForm;
 use App\Models\Student;
+use App\Models\Submission;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 
 class SubmissionController extends Controller
 {
     public function index(Request $request)
     {
-        $researchForm = ResearchForm::find($request->input('formId', 1));
+        $researchForm = ResearchForm::find($request->query('formId', 1));
+        $schoolYears = Submission::distinct()->pluck('school_year');
+        $students = null;
+
+        if ($request->has('departmentId', false)) {
+            $students = Department::find($request->query('departmentId'))
+                ->students->where('is_leader', '=', '1')->get();
+        } else {
+            $students = Student::where('is_leader', '=', '1')->get();
+        }
+
+        if ($request->has(['school_year', 'semester'])) {
+            $students = Student::whereHas('submissions', function ($query) use ($request) {
+                $query->where(function ($subquery) use ($request) {
+                    $subquery->where('school_year', '=', $request->input('school_year'))
+                        ->where('semester', '=', $request->input('semester'));
+                });
+            })->get();
+        }
 
         return view('submissions.index', [
             'researchForm' => $researchForm,
-            'students' => Student::all(),
+            'students' => $students,
             'researchForms' => ResearchForm::all(),
+            'departments' => Department::all(),
+            'schoolYears' => $schoolYears,
         ]);
     }
 
@@ -31,6 +54,8 @@ class SubmissionController extends Controller
     {
         $request->validate([
             'document' => 'required|file|mimetypes:application/pdf',
+            'school_year' => 'required|string',
+            'semester' => ['required', Rule::in(['1st semester', '2nd semester'])],
         ]);
 
         $file = $request->file('document');
@@ -43,6 +68,8 @@ class SubmissionController extends Controller
             'student_id' => $student->id,
             'original_filename' => $file->getClientOriginalName(),
             'path' => $path,
+            'school_year' => $request->school_year,
+            'semester' => $request->semester,
             'created_at' => DB::raw('CURRENT_TIMESTAMP'),
             'updated_at' => DB::raw('CURRENT_TIMESTAMP'),
         ]);
@@ -53,7 +80,12 @@ class SubmissionController extends Controller
     public function show(Student $student, ResearchForm $researchForm)
     {
         $submission = DB::table('submissions')
-            ->select('submissions.id', 'submissions.path', 'submissions.status')
+            ->select(
+                'submissions.id',
+                'submissions.path',
+                'submissions.status',
+                'submissions.remark',
+            )
             ->where([
                 'student_id' => $student->id,
                 'research_form_id' => $researchForm->id,
@@ -63,10 +95,10 @@ class SubmissionController extends Controller
             ->join('users', 'students.user_id', '=', 'users.id')
             ->first();
 
-        $uri = "";
+        $uri = '';
 
         if (isset($submission)) {
-            $uri = asset('storage/' . explode('/', $submission->path)[1]);
+            $uri = asset('storage/'.explode('/', $submission->path)[1]);
         }
 
         return view('submissions.show', [

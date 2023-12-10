@@ -38,7 +38,7 @@
         </div>
 
         <p class="text-center text-muted">
-            Your account has been disabled, please contact your system administrator.
+            You do not have proper privileges to continue.
         </p>
 
         <button type="submit" class="btn btn-block btn-primary">

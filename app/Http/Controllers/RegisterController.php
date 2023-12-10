@@ -36,6 +36,8 @@ class RegisterController extends Controller
             'student_id' => 'required|unique:users,username',
             'adviser' => 'required|string',
             'password' => 'required|string|confirmed',
+            'control_number' => 'required|unique:students|string',
+            'is_leader' => ['required', Rule::in([0, 1])],
         ]);
 
         $user = User::create([
@@ -44,7 +46,6 @@ class RegisterController extends Controller
             'last_name' => $request->last_name,
             'username' => $request->student_id,
             'password' => Hash::make($request->password),
-            'is_active' => false,
         ]);
 
         $department = Department::find($request->department);
@@ -53,6 +54,8 @@ class RegisterController extends Controller
         $student = new Student([
             'year_level' => $request->enum('year_level', YearLevel::class),
             'adviser' => $request->adviser,
+            'control_number' => $request->control_number,
+            'is_leader' => $request->is_leader,
         ]);
 
         $student->department()->associate($department);

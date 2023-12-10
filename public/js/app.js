@@ -2,8 +2,19 @@ new DataTable("#table");
 
 $(function () {
     $("#select-form").on("change", function () {
-        window.location.href =
-            "/research-forms/submissions?formId=" + $(this).val();
+        var url = new URL("/research-forms/submissions", window.location.href);
+        url.searchParams.set("formId", $("#select-form").val());
+        url.searchParams.set("departmentId", $("#select-department").val());
+
+        window.location.href = url.toString();
+    });
+
+    $("#select-department").on("change", function () {
+        var url = new URL("/research-forms/submissions", window.location.href);
+        url.searchParams.set("formId", $("#select-form").val());
+        url.searchParams.set("departmentId", $("#select-department").val());
+
+        window.location.href = url.toString();
     });
 
     $(".custom-file-input").on("change", function () {

@@ -46,6 +46,12 @@ class StudentController extends Controller
             'course' => 'required|string',
             'year_level' => ['required', Rule::in(array_column(YearLevel::cases(), 'value'))],
             'adviser' => 'required|string',
+            'control_number' => [
+                'required',
+                Rule::unique('students')->ignore($student),
+                'string',
+            ],
+            'is_leader' => ['required', Rule::in([0, 1])],
         ]);
 
         $student->user()->update([
@@ -55,7 +61,14 @@ class StudentController extends Controller
             'last_name' => $request->last_name,
         ]);
 
-        $student->update($request->only('department', 'course', 'year_level', 'adviser`'));
+        $student->update($request->only(
+            'department',
+            'course',
+            'year_level',
+            'adviser',
+            'control_number',
+            'is_leader',
+        ));
 
         return redirect(route('students.index'))
             ->with('message', 'Student information updated successfully.');

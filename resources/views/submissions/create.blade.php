@@ -19,6 +19,20 @@
                 @enderror
             </div>
 
+            <div class="form-group mt-3 p-0">
+                <label for="school_year">School Year</label>
+                <input type="text" name="school_year" id="school_year" class="form-control" required>
+            </div>
+
+            <div class="form-group mt-3 p-0">
+                <label for="semester">Semester</label>
+                <select name="semester" id="semester" class="custom-select">
+                    <option value="" selected>Choose semester</option>
+                    <option value="1st semester">1st semester</option>
+                    <option value="2nd semester">2nd semester</option>
+                </select>
+            </div>
+
             <div class="mt-3 p-0">
                 <button type="submit" class="btn btn-primary">Submit</button>
             </div>

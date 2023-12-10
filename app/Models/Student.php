@@ -11,7 +11,12 @@ class Student extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['year_level', 'adviser'];
+    protected $fillable = [
+        'year_level',
+        'adviser',
+        'control_number',
+        'is_leader',
+    ];
 
     public function user(): BelongsTo
     {
