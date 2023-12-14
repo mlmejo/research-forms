@@ -21,6 +21,7 @@
         }
     </style>
 
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous">
@@ -79,13 +80,6 @@
             overflow-y: auto;
         }
 
-        @supports ((position: -webkit-sticky) or (position: sticky)) {
-            .sidebar-sticky {
-                position: -webkit-sticky;
-                position: sticky;
-            }
-        }
-
         .navbar-brand {
             padding-top: 0.75rem;
             padding-bottom: 0.75rem;
@@ -103,8 +97,9 @@
 
 <body>
     <nav class="navbar navbar-dark sticky-top bg-primary flex-md-nowrap p-0 shadow">
-        <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="#">
-            Research Form Submission
+        <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-2" href="#">
+            <img src="{{ asset('application-logo.webp') }}" alt="" width="24" height="24" />
+            <small>Research Forms Submission</small>
         </a>
         <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-toggle="collapse"
             data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
@@ -117,8 +112,11 @@
             <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
                 <div class="sidebar-sticky pt-3">
                     <h6
-                        class="sidebar-heading d-flex justify-content-center align-items-center h5 px-3 my-2 text-primary text-uppercase font-weight-bold">
-                        {{ request()->user()->roles[0]['name'] }}
+                        class="sidebar-heading d-flex justify-content-center align-items-center h5 px-3 mt-2 mb-0 text-primary text-uppercase font-weight-bold">
+                        {{ Auth::user()->first_name }} {{ Auth::user()->last_name}}
+                    </h6>
+                    <h6 class="sidebar-heading d-flex justify-content-center align-items-center h5 px-3 mb-2 text-dark text-uppercase font-weight-bold">
+                        {{ Auth::user()->roles[0]->name }}
                     </h6>
                     <ul class="nav flex-column">
                         <li class="nav-item">
@@ -221,7 +219,7 @@
 
     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-0 p-md-4">
         @if (request()->session()->has('message'))
-            <div class="alert alert-success">
+            <div class="alert alert-info">
                 {{ request()->session()->get('message') }}
             </div>
         @endif

@@ -15,7 +15,9 @@ class Student extends Model
         'year_level',
         'adviser',
         'control_number',
-        'is_leader',
+        'school_year',
+        'semester',
+        'members',
     ];
 
     public function user(): BelongsTo

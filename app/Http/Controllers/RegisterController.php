@@ -37,7 +37,9 @@ class RegisterController extends Controller
             'adviser' => 'required|string',
             'password' => 'required|string|confirmed',
             'control_number' => 'required|unique:students|string',
-            'is_leader' => ['required', Rule::in([0, 1])],
+            'school_year' => 'required|string',
+            'semester' => Rule::in(['1st semester', '2nd semester']),
+            'members' => 'required|string',
         ]);
 
         $user = User::create([
@@ -55,7 +57,9 @@ class RegisterController extends Controller
             'year_level' => $request->enum('year_level', YearLevel::class),
             'adviser' => $request->adviser,
             'control_number' => $request->control_number,
-            'is_leader' => $request->is_leader,
+            'school_year' => $request->school_year,
+            'semester' => $request->semester,
+            'members' => $request->members,
         ]);
 
         $student->department()->associate($department);

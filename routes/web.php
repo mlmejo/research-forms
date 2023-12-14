@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AnnouncementController;
+use App\Http\Controllers\Api;
 use App\Http\Controllers\FormApprovalController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RegisterController;
@@ -65,6 +66,11 @@ Route::middleware('auth')->group(function () {
         '/research-forms/{research_form}/submissions/edit',
         [SubmissionController::class, 'edit']
     )->name('research-forms.submissions.edit');
+
+    Route::patch(
+        '/research-forms/{research_form}/submissions',
+        [SubmissionController::class, 'update']
+    )->name('research-forms.submissions.update');
 });
 
 Route::get('/research-forms', [ResearchFormController::class, 'index'])
@@ -100,5 +106,7 @@ Route::resource('announcements', AnnouncementController::class)
 
 Route::resource('reports', ReportController::class)
     ->middleware(['auth', 'role:admin']);
+
+Route::get('/api/departments/{department}/courses', [Api\DepartmentCourseController::class, 'index']);
 
 Route::get('/home', HomeController::class)->middleware('auth');

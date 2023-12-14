@@ -9,6 +9,7 @@ use App\Models\Submission;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 
@@ -21,10 +22,9 @@ class SubmissionController extends Controller
         $students = null;
 
         if ($request->has('departmentId', false)) {
-            $students = Department::find($request->query('departmentId'))
-                ->students->where('is_leader', '=', '1')->get();
+            $students = Department::find($request->query('departmentId'))->get();
         } else {
-            $students = Student::where('is_leader', '=', '1')->get();
+            $students = Student::all();
         }
 
         if ($request->has(['school_year', 'semester'])) {
@@ -45,8 +45,18 @@ class SubmissionController extends Controller
         ]);
     }
 
-    public function create(ResearchForm $researchForm): View
+    public function create(ResearchForm $researchForm): View | RedirectResponse
     {
+        $student = Student::where('user_id', '=', Auth::id())->first();
+        $submission = $student->submissions->where('research_form_id', '=', $researchForm->id)
+            ->first();
+
+        if ($submission && $submission->status != 'rejected') {
+            return back()->with([
+                'message' => 'You already made a submission.',
+            ]);
+        }
+
         return view('submissions.create', ['researchForm' => $researchForm]);
     }
 
@@ -111,6 +121,52 @@ class SubmissionController extends Controller
 
     public function edit(ResearchForm $researchForm)
     {
+        $student = Student::where('user_id', '=', Auth::id())->first();
+        $submission = $student->submissions->where('research_form_id', '=', $researchForm->id)
+            ->first();
+
+        if ($submission && $submission->status != 'rejected') {
+            return back()->with([
+                'message' => 'You already made a submission.',
+            ]);
+        }
+
         return view('submissions.edit', ['researchForm' => $researchForm]);
+    }
+
+    public function update(Request $request, ResearchForm $researchForm)
+    {
+        $student = Student::where('user_id', '=', Auth::id())->first();
+        $submission = $student->submissions->where('research_form_id', '=', $researchForm->id)
+            ->first();
+
+        if ($submission && $submission->status != 'rejected') {
+            return back()->with([
+                'message' => 'You already made a submission.',
+            ]);
+        }
+
+        $request->validate([
+            'document' => 'required|file|mimetypes:application/pdf',
+            'school_year' => 'required|string',
+            'semester' => ['required', Rule::in(['1st semester', '2nd semester'])],
+        ]);
+
+        $file = $request->file('document');
+        $path = $file->store('public');
+
+        $submission = Submission::where('research_form_id', '=', $researchForm->id)
+            ->where('student_id', '=', $student->id)
+            ->first();
+
+        $submission->update([
+            'school_year' => $request->school_year,
+            'semester' => $request->semester,
+            'original_filename' => $file->getClientOriginalName(),
+            'path' => $path,
+        ]);
+
+        return redirect(route('research-forms.index'))
+            ->with(['message' => 'Submission updated successfully.']);
     }
 }

@@ -13,10 +13,6 @@ class Authenticate extends Middleware
      */
     protected function redirectTo(Request $request): ?string
     {
-        if (Auth::check() && ! Auth::user()->is_leader) {
-            return abort(403);
-        }
-
         return $request->expectsJson() ? null : route('welcome');
     }
 }

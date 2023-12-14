@@ -51,7 +51,6 @@ class StudentController extends Controller
                 Rule::unique('students')->ignore($student),
                 'string',
             ],
-            'is_leader' => ['required', Rule::in([0, 1])],
         ]);
 
         $student->user()->update([
@@ -67,7 +66,6 @@ class StudentController extends Controller
             'year_level',
             'adviser',
             'control_number',
-            'is_leader',
         ));
 
         return redirect(route('students.index'))

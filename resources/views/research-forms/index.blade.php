@@ -23,7 +23,26 @@
                             </td>
                             <td>
                                 @if ($researchForm->submitted)
-                                    <span class="text-warning">Pending</span>
+                                    @php
+                                        $student = \App\Models\Student::where('user_id', '=', Auth::id())->first();
+                                        $submission = \App\Models\Submission::where(
+                                            'research_form_id', '=', $researchForm->id,
+                                        )->where('student_id', '=', $student->id)->first();
+                                    @endphp
+
+                                    @switch ($submission->status)
+                                        @case ('pending')
+                                            <span class="text-warning">Pending</span>
+                                        @break
+
+                                        @case ('approved')
+                                            <span class="text-success">Approved</span>
+                                        @break
+
+                                        @case ('rejected')
+                                            <span class="text-danger">Rejected</span>
+                                        @break
+                                    @endswitch
                                 @else
                                     <span class="text-danger">Missing</span>
                                 @endif

@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('students', function (Blueprint $table) {
-            $table->boolean('is_leader')->default(false);
+            $table->string('school_year');
+            $table->enum('semester', ['1st semester', '2nd semester']);
         });
     }
 
@@ -22,7 +23,8 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('students', function (Blueprint $table) {
-            $table->dropColumn('is_leader');
+            $table->dropColumn('school_year');
+            $table->dropColumn('semester');
         });
     }
 };

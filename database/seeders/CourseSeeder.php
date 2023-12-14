@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Department;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class CourseSeeder extends Seeder
 {
@@ -12,7 +12,8 @@ class CourseSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('courses')->insert([
+        $department = Department::find(1);
+        $department->courses()->create([
             'name' => 'BSIT',
         ]);
     }

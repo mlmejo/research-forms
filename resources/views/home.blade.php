@@ -6,8 +6,18 @@
             Research Form Submission System
         </h2>
 
-        <a href="{{ route('announcements.create') }}" class="btn btn-sm btn-primary">Create Announcement</a>
+        @if (Auth::user()->hasRole('admin'))
+            <a href="{{ route('announcements.create') }}" class="btn btn-sm btn-primary">Create Announcement</a>
+        @endif
     </div>
+
+    @if (!$announcements->count() > 0)
+        <div class="card">
+            <div class="card-body">
+                No announcements.
+            </div>
+        </div>
+    @endif
 
     @foreach ($announcements as $announcement)
         <div class="card mt-3">

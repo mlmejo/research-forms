@@ -17,7 +17,7 @@ class SubmissionStatusController extends Controller
         ]);
 
         if ($request->status == 'approved') {
-            $request->update(['remark' => '']);
+            $submission->update(['remark' => '']);
         }
 
         $submission->update($request->only('status'));

@@ -12,7 +12,7 @@
                         <th>Department</th>
                         <th>Course</th>
                         <th>Control Number</th>
-                        <th>Leader</th>
+                        <th>Members</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -23,11 +23,7 @@
                             <td>{{ $student->department->name }}</td>
                             <td>{{ $student->course->name }}</td>
                             <td>{{ $student->control_number }}</td>
-                            @if ($student->is_leader)
-                                <td class="text-success">Yes</td>
-                            @else
-                                <td>Yes</td>
-                            @endif
+                            <td>{{ $student->members }}</td>
                             <td>
                                 <a href="{{ route('students.edit', $student) }}">Edit</a>
                             </td>

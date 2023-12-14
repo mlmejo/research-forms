@@ -13,7 +13,7 @@ class ReportController extends Controller
         return view('reports.index', [
             'departments' => Department::all(),
             'courses' => Course::all(),
-            'students' => Student::where('is_leader', '=', '1')->get(),
+            'students' => Student::all(),
         ]);
     }
 }

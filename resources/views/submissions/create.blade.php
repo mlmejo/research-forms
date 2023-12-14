@@ -21,7 +21,17 @@
 
             <div class="form-group mt-3 p-0">
                 <label for="school_year">School Year</label>
-                <input type="text" name="school_year" id="school_year" class="form-control" required>
+                <select name="school_year" id="school_year" class="custom-select">
+                    <option value="">Choose school year</option>
+                    <?php
+                        $current_year = date("Y");
+                        for ($i = 2018; $i <= $current_year; $i++) {
+                            $next_year = $i + 1;
+                            $school_year = $i . " - " . $next_year;
+                            echo '<option value="' . $school_year . '">' . $school_year . '</option>';
+                        }
+                    ?>
+                </select>
             </div>
 
             <div class="form-group mt-3 p-0">
@@ -34,7 +44,8 @@
             </div>
 
             <div class="mt-3 p-0">
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <a href="/research-forms" class="btn btn-secondary">Cancel</a>
+                <button type="submit" class="btn ml-1 btn-primary">Submit</button>
             </div>
         </form>
     </div>

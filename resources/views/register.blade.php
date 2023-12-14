@@ -8,6 +8,8 @@
 
     <link rel="stylesheet" href="{{ asset('css/app.min.css') }}">
 
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
     <style>
         html,
         body {
@@ -38,15 +40,6 @@
             <img src="{{ asset('application-logo.webp') }}" alt="Saint Michael College of Caraga" height="64"
                 width="64" />
             <h1 class="h4 ml-2 mb-0 d-inline-block font-weight-bold ">Research Forms Submission</h1>
-        </div>
-
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="is_leader" id="inlineRadio1" value="1" checked>
-            <label class="form-check-label" for="inlineRadio1">Leader</label>
-        </div>
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="is_leader" id="inlineRadio2" value="0">
-            <label class="form-check-label" for="inlineRadio2">Member</label>
         </div>
 
         <div class="row my-3">
@@ -125,10 +118,11 @@
             </div>
         </div>
 
-        <div class="row mb-3">
+        <div x-data="{ department: null, courses: [] }" class="row mb-3">
             <div class="col-12 col-md-4 mb-3 mb-md-0">
                 <label for="department">Department</label>
-                <select name="department" id="department" class="custom-select">
+                <select name="department" id="department" class="custom-select" x-model="department"
+                    x-on:change="updateCourses">
                     <option value="" selected>Select option</option>
                     @foreach ($departments as $department)
                         <option value="{{ $department->id }}">{{ $department->name }}</option>
@@ -146,9 +140,9 @@
                 <label for="course">Course / Strand</label>
                 <select name="course" id="course" class="custom-select">
                     <option value="" selected>Select option</option>
-                    @foreach ($courses as $course)
-                        <option value="{{ $course->id }}">{{ $course->name }}</option>
-                    @endforeach
+                    <template x-for="course in courses" :key="course.id">
+                        <option x-text="course.name" x-bind:value="course.id"></option>
+                    </template>
                 </select>
 
                 @error('course')
@@ -178,11 +172,43 @@
 
         <div class="row mb-3">
             <div class="col-12 col-md-6">
+                <label for="school_year">School Year</label>
+                <select name="school_year" id="school_year" class="custom-select">
+                    <option value="">Choose school year</option>
+                    <?php
+                    $current_year = date('Y');
+                    for ($i = 2018; $i <= $current_year; $i++) {
+                        $next_year = $i + 1;
+                        $school_year = $i . ' - ' . $next_year;
+                        echo '<option value="' . $school_year . '">' . $school_year . '</option>';
+                    }
+                    ?>
+                </select>
+            </div>
+
+            <div class="col-12 col-md-6">
+                <label for="semester">Semester</label>
+                <select name="semester" id="semester" class="custom-select">
+                    <option value="">Choose semester</option>
+                    <option value="1st semester">1st semester</option>
+                    <option value="2nd semester">2nd semester</option>
+                </select>
+            </div>
+        </div>
+
+
+        <div class="row mb-3">
+            <div class="col-12 col-md-4">
+                <label for="members">Members</label>
+                <input type="text" name="members" id="members" class="form-control" required />
+            </div>
+
+            <div class="col-12 col-md-4">
                 <label for="password">Password</label>
                 <input type="password" name="password" id="password" class="form-control" required />
             </div>
 
-            <div class="col-12 col-md-6">
+            <div class="col-12 col-md-4">
                 <label for="password_confirmation">Confirm Password</label>
                 <input type="password" name="password_confirmation" id="password_confirmation" class="form-control"
                     required />
@@ -199,6 +225,19 @@
             </button>
         </div>
     </form>
+
+    <script>
+        function updateCourses() {
+            var departmentId = this.department;
+            if (departmentId < 0) return;
+
+            fetch(`/api/departments/${departmentId}/courses`)
+                .then(response => response.json())
+                .then(data => {
+                    this.courses = data;
+                });
+        }
+    </script>
 </body>
 
 </html>
