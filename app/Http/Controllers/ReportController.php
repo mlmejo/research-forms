@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Course;
 use App\Models\Department;
+use App\Models\ResearchForm;
 use App\Models\Student;
 
 class ReportController extends Controller
@@ -14,6 +15,7 @@ class ReportController extends Controller
             'departments' => Department::all(),
             'courses' => Course::all(),
             'students' => Student::all(),
+            'formCount' => ResearchForm::count(),
         ]);
     }
 }

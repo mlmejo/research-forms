@@ -10,6 +10,7 @@
                     <tr>
                         <th>Research Form</th>
                         <th>Status</th>
+                        <th>Remarks</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -45,6 +46,11 @@
                                     @endswitch
                                 @else
                                     <span class="text-danger">Missing</span>
+                                @endif
+                            </td>
+                            <td>
+                                @if ($researchForm->submitted)
+                                    {{ $submission->remark }}
                                 @endif
                             </td>
                         </tr>

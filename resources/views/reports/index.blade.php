@@ -21,55 +21,19 @@
                 <table class="table table-sm table-striped">
                     <tbody>
                         <tr>
-                            <th>Submission per department: </th>
-                            <th>Pending</th>
-                            <th>Rejected</th>
-                            <th>Approved</th>
-                        </tr>
-                        @foreach ($departments as $department)
-                            @php
-                                $submissions = \App\Models\Submission::join('students', 'submissions.student_id', '=', 'students.id')
-                                    ->where('students.department_id', '=', $department->id)
-                                    ->get();
-                            @endphp
-                            <tr>
-                                <td>{{ $department->name }}</td>
-                                <td>{{ $submissions->where('status', '=', 'pending')->count() }}</td>
-                                <td>{{ $submissions->where('status', '=', 'rejected')->count() }}</td>
-                                <td>{{ $submissions->where('status', '=', 'approved')->count() }}</td>
-                            </tr>
-                        @endforeach
-                        <tr>
-                            <th>Submission per course:</th>
-                            <th>Pending</th>
-                            <th>Rejected</th>
-                            <th>Approved</th>
-                        </tr>
-                        @foreach ($courses as $course)
-                            @php
-                                $submissions = \App\Models\Submission::join('students', 'submissions.student_id', '=', 'students.id')
-                                    ->where('students.course_id', '=', $course->id)
-                                    ->get();
-                            @endphp
-                            <tr>
-                                <td>{{ $course->name }}</td>
-                                <td>{{ $submissions->where('status', '=', 'pending')->count() }}</td>
-                                <td>{{ $submissions->where('status', '=', 'rejected')->count() }}</td>
-                                <td>{{ $submissions->where('status', '=', 'approved')->count() }}</td>
-                            </tr>
-                        @endforeach
-                        <tr>
                             <th>Submission per group:</th>
-                            <th>Pending</th>
-                            <th>Rejected</th>
-                            <th>Approved</th>
+                            <th class="text-center">Pending</th>
+                            <th class="text-center">Rejected</th>
+                            <th class="text-center">Approved</th>
+                            <th class="text-center">Remarks</th>
                         </tr>
                         @foreach ($students as $student)
                             <tr>
-                                <td>{{ $student->control_number }}</td>
-                                <td>{{ $student->submissions->where('status', '=', 'pending')->count() }}</td>
-                                <td>{{ $student->submissions->where('status', '=', 'rejected')->count() }}</td>
-                                <td>{{ $student->submissions->where('status', '=', 'approved')->count() }}</td>
+                                <td>{{ $student->user->first_name }} {{ $student->user->last_name }}</td>
+                                <td class="text-center">{{ $student->submissions->where('status', '=', 'pending')->count() }}</td>
+                                <td class="text-center">{{ $student->submissions->where('status', '=', 'rejected')->count() }}</td>
+                                <td class="text-center">{{ $student->submissions->where('status', '=', 'approved')->count() }}</td>
+                                <td class="text-center">{{ $student->submissions->count() }}/{{ $formCount }}</td>
                             </tr>
                         @endforeach
                     </tbody>
