@@ -38,7 +38,7 @@ class RegisterController extends Controller
             'password' => 'required|string|confirmed',
             'control_number' => 'required|unique:students|string',
             'school_year' => 'required|string',
-            'semester' => Rule::in(['1st semester', '2nd semester']),
+            'semester' => Rule::in(['1st semester', '2nd semester', 'Summer class']),
             'members' => 'required|string',
         ]);
 

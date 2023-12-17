@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('students', function (Blueprint $table) {
             $table->string('school_year');
-            $table->enum('semester', ['1st semester', '2nd semester']);
+            $table->enum('semester', ['1st semester', '2nd semester', 'Summer class']);
         });
     }
 
