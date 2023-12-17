@@ -40,6 +40,7 @@
                     <option value="" selected>Choose semester</option>
                     <option value="1st semester">1st semester</option>
                     <option value="2nd semester">2nd semester</option>
+                    <option value="Summer class">Summer class</option>
                 </select>
             </div>
 

@@ -65,7 +65,10 @@ class SubmissionController extends Controller
         $request->validate([
             'document' => 'required|file|mimetypes:application/pdf',
             'school_year' => 'required|string',
-            'semester' => ['required', Rule::in(['1st semester', '2nd semester'])],
+            'semester' => [
+                'required',
+                Rule::in(['1st semester', '2nd semester', 'Summer class']),
+            ],
         ]);
 
         $file = $request->file('document');
