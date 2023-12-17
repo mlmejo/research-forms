@@ -13,6 +13,32 @@
             </button>
         </div>
 
+        <form action="" method="get" class="row align-items-center mb-3">
+            <div class="col-md-4">
+                <select name="school_year" class="custom-select" id="select-sy">
+                    @foreach ($schoolYears as $schoolYear)
+                        <option value="{{ $schoolYear }}">
+                            {{ $schoolYear }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="col-md-4 pl-0">
+                <select name="semester" class="custom-select" id="select-semester">
+                    <option value="1st semester">
+                        1st semester
+                    </option>
+                    <option value="2nd semester">2nd semester</option>
+                    <option value="Summer class">Summer class</option>
+                </select>
+            </div>
+
+            <div class="col-md-4 pl-0">
+                <button type="submit" class="btn btn-sm btn-primary">Filter</button>
+            </div>
+        </form>
+
         <div id="report">
             <h2 class="h4 mb-0 font-weight-bold">Research Form Submission Report</h2>
             <p class="text-muted mb-3">{{ now()->format('F d, Y h:i A') }}</p>
@@ -22,18 +48,16 @@
                     <tbody>
                         <tr>
                             <th>Submission per group:</th>
-                            <th class="text-center">Pending</th>
-                            <th class="text-center">Rejected</th>
-                            <th class="text-center">Approved</th>
+                            <th>Control number</th>
                             <th class="text-center">Remarks</th>
                         </tr>
                         @foreach ($students as $student)
                             <tr>
                                 <td>{{ $student->user->first_name }} {{ $student->user->last_name }}</td>
-                                <td class="text-center">{{ $student->submissions->where('status', '=', 'pending')->count() }}</td>
-                                <td class="text-center">{{ $student->submissions->where('status', '=', 'rejected')->count() }}</td>
-                                <td class="text-center">{{ $student->submissions->where('status', '=', 'approved')->count() }}</td>
-                                <td class="text-center">{{ $student->submissions->count() }}/{{ $formCount }}</td>
+                                <td>{{ $student->control_number }}</td>
+                                <td class="text-center">
+                                    {{ $student->submissions->where('status', '=', 'approved')->count() }}/{{ $formCount }}
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>

@@ -152,7 +152,10 @@ class SubmissionController extends Controller
         $request->validate([
             'document' => 'required|file|mimetypes:application/pdf',
             'school_year' => 'required|string',
-            'semester' => ['required', Rule::in(['1st semester', '2nd semester'])],
+            'semester' => [
+                'required',
+                Rule::in(['1st semester', '2nd semester', 'Summer class']),
+            ],
         ]);
 
         $file = $request->file('document');
@@ -167,6 +170,8 @@ class SubmissionController extends Controller
             'semester' => $request->semester,
             'original_filename' => $file->getClientOriginalName(),
             'path' => $path,
+            'status' => 'pending',
+            'remarks' => '',
         ]);
 
         return redirect(route('research-forms.index'))

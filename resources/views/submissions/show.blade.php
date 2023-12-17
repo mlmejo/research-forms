@@ -41,7 +41,7 @@
                 @endisset
             </div>
 
-            @if (isset($submission))
+            @if (isset($submission) && Auth::user()->hasRole('admin'))
                 <form action="{{ route('submissions.change-status', $submission->id) }}" method="post">
                     @csrf
 

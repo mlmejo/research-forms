@@ -15,22 +15,32 @@
                 </thead>
                 <tbody>
                     @foreach ($researchForms as $researchForm)
+                        @php
+                            $student = \App\Models\Student::where('user_id', '=', Auth::id())->first();
+                            $submission = \App\Models\Submission::where('research_form_id', '=', $researchForm->id)
+                                ->where('student_id', '=', $student->id)
+                                ->first();
+                        @endphp
                         <tr>
                             <td>
-                                <a
-                                    href="{{ $researchForm->submitted ? route('research-forms.submissions.edit', $researchForm) : route('research-forms.submissions.create', $researchForm) }}">
-                                    {{ $researchForm->title }}
-                                </a>
+                                @if ($researchForm->submitted && $submission->status != 'rejected')
+                                    <a
+                                        href="{{ route('research-forms.submissions.show', [$studentId, $researchForm]) }}">
+                                        {{ $researchForm->title }}
+                                    </a>
+                                @elseif ($researchForm->submitted && $submission->status == 'rejected')
+                                    <a
+                                        href="{{ route('research-forms.submissions.edit', $researchForm) }}">
+                                        {{ $researchForm->title }}
+                                    </a>
+                                @else
+                                    <a href="{{ route('research-forms.submissions.create', $researchForm) }}">
+                                        {{ $researchForm->title }}
+                                    </a>
+                                @endif
                             </td>
                             <td>
                                 @if ($researchForm->submitted)
-                                    @php
-                                        $student = \App\Models\Student::where('user_id', '=', Auth::id())->first();
-                                        $submission = \App\Models\Submission::where(
-                                            'research_form_id', '=', $researchForm->id,
-                                        )->where('student_id', '=', $student->id)->first();
-                                    @endphp
-
                                     @switch ($submission->status)
                                         @case ('pending')
                                             <span class="text-warning">Pending</span>

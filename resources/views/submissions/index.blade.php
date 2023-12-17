@@ -50,6 +50,7 @@
                 </select>
             </div>
         </div>
+
         <form action="" method="get" class="row align-items-center mb-3">
             <div class="col-md-4">
                 <select name="school_year" class="custom-select" id="select-sy">
@@ -67,6 +68,7 @@
                         1st semester
                     </option>
                     <option value="2nd semester">2nd semester</option>
+                    <option value="Summer class">Summer class</option>
                 </select>
             </div>
 

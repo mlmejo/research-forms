@@ -23,6 +23,7 @@ class ResearchFormController extends Controller
 
         return view('research-forms.index', [
             'researchForms' => $forms,
+            'studentId' => $studentId,
         ]);
     }
 
