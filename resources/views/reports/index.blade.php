@@ -44,20 +44,37 @@
             <p class="text-muted mb-3">{{ now()->format('F d, Y h:i A') }}</p>
 
             <div class="table-responsive mt-3">
-                <table class="table table-sm table-striped">
+                <table class="table table-sm">
                     <tbody>
-                        <tr>
+                        <tr style="background-color: rgba(0, 0, 0, 0.05);">
                             <th>Submission per group:</th>
                             <th>Control number</th>
-                            <th class="text-center">Remarks</th>
+                            <th>School Year</th>
+                            <th>Semester</th>
+                            <th>Department</th>
+                            <th>Year Level</th>
+                            <th class="text-center">Total Submissions</th>
                         </tr>
                         @foreach ($students as $student)
                             <tr>
                                 <td>{{ $student->user->first_name }} {{ $student->user->last_name }}</td>
                                 <td>{{ $student->control_number }}</td>
+                                <td>{{ $student->school_year }}</td>
+                                <td>{{ $student->semester }}</td>
+                                <td>{{ $student->department->name }}</td>
+                                <td>{{ $student->year_level }}</td>
                                 <td class="text-center">
                                     {{ $student->submissions->where('status', '=', 'approved')->count() }}/{{ $formCount }}
                                 </td>
+                            </tr>
+                        @endforeach
+
+                        <tr style="background: rgba(0, 0, 0, 0.05);">
+                            <th colspan="7">Department</th>
+                        </tr>
+                        @foreach ($departments as $department)
+                            <tr>
+                                <td>{{ $department->name }}</td>
                             </tr>
                         @endforeach
                     </tbody>

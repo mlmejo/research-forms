@@ -28,6 +28,7 @@ class ReportController extends Controller
             'students' => $students,
             'formCount' => ResearchForm::count(),
             'schoolYears' => Submission::distinct()->pluck('school_year'),
+            'departments' => Department::all(),
         ]);
     }
 }
