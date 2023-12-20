@@ -74,7 +74,11 @@
                         </tr>
                         @foreach ($departments as $department)
                             <tr>
-                                <td>{{ $department->name }}</td>
+                                <td>
+                                    <a href="{{ route('departments.courses.index', $department) }}">
+                                        {{ $department->name }}
+                                    </a>
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>

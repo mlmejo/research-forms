@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\Api;
+use App\Http\Controllers\DepartmentCourseController;
 use App\Http\Controllers\FormApprovalController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RegisterController;
@@ -108,5 +109,9 @@ Route::resource('reports', ReportController::class)
     ->middleware(['auth', 'role:admin']);
 
 Route::get('/api/departments/{department}/courses', [Api\DepartmentCourseController::class, 'index']);
+
+Route::get('/departments/{department}/courses', [DepartmentCourseController::class, 'index'])
+    ->name('departments.courses.index')
+    ->middleware(['auth', 'role:admin']);
 
 Route::get('/home', HomeController::class)->middleware('auth');
