@@ -83,6 +83,8 @@
                     <tr>
                         <th>Student Name</th>
                         <th>Department</th>
+                        <th>School Year</th>
+                        <th>Semester</th>
                         <th>Adviser</th>
                         <th>Date & Time</th>
                         <th>Status</th>
@@ -101,6 +103,8 @@
                                 </a>
                             </td>
                             <td>{{ $student->department->name }}</td>
+                            <td>{{ $student->school_year }}</td>
+                            <td>{{ $student->semester }}</td>
                             <td>
                                 {{ $student->adviser }}
                             </td>

@@ -30,11 +30,12 @@
                                 <td>{{ $course->name }}</td>
                                 <td>
                                     @php
-                                        $submissions = $course->students->flatMap(function ($student) {
-                                            return $student->submissions->where('status', 'accepted');
-                                        })->count();
+                                        $count = $course->students()
+                                            ->whereHas('submissions', function ($query) {
+                                                $query->where('status', '=', 'approved');
+                                            })->count()
                                     @endphp
-                                    {{ $submissions }}
+                                    {{ $count }}
                                 </td>
                             </tr>
                         @endforeach
