@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('submissions', function (Blueprint $table) {
-            $table->enum('semester', ['1st semester', '2nd semester']);
+            $table->enum('semester', ['1st semester', '2nd semester', 'Summer class']);
         });
     }
 
