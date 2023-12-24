@@ -10,7 +10,7 @@
                     <tr>
                         <th>Full Name</th>
                         <th>Department</th>
-                        <th>Course</th>
+                        <th>Course/Strand</th>
                         <th>Control Number</th>
                         <th>Members</th>
                         <th>Action</th>

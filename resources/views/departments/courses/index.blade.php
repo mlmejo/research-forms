@@ -30,10 +30,10 @@
                                 <td>{{ $course->name }}</td>
                                 <td>
                                     @php
-                                        $count = $course->students()
-                                            ->whereHas('submissions', function ($query) {
-                                                $query->where('status', '=', 'approved');
-                                            })->count()
+                                        $count = \App\Models\Submission::where('status', '=', 'approved')
+                                            ->whereHas('student', function ($query) use ($course) {
+                                                $query->where('course_id', '=', $course->id);
+                                            })->count();
                                     @endphp
                                     {{ $count }}
                                 </td>
