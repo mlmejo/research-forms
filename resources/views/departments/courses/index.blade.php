@@ -22,7 +22,13 @@
                 <table class="table table-sm">
                     <tbody>
                         <tr>
-                            <th>Courses</th>
+                            <th>
+                                @if ($course->name == 'SHS Department')
+                                    Strand
+                                @else
+                                    Course
+                                @endif
+                            </th>
                             <th>Total submissions</th>
                         </tr>
                         @foreach ($department->courses as $course)
