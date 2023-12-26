@@ -20,20 +20,30 @@ class SubmissionController extends Controller
         $researchForm = ResearchForm::find($request->query('formId', 1));
         $schoolYears = Submission::distinct()->pluck('school_year');
         $students = null;
+        $department = null;
 
         if ($request->has('departmentId', false)) {
-            $students = Department::find($request->query('departmentId'))->get();
+            $department = Department::find($request->query('departmentId'));
         } else {
             $students = Student::all();
         }
 
         if ($request->has(['school_year', 'semester'])) {
-            $students = Student::whereHas('submissions', function ($query) use ($request) {
-                $query->where(function ($subquery) use ($request) {
-                    $subquery->where('school_year', '=', $request->input('school_year'))
-                        ->where('semester', '=', $request->input('semester'));
-                });
-            })->get();
+            if ($department) {
+                $students = $department->students()->whereHas('submissions', function ($query) use ($request) {
+                    $query->where(function ($subquery) use ($request) {
+                        $subquery->where('school_year', '=', $request->input('school_year'))
+                            ->where('semester', '=', $request->input('semester'));
+                    });
+                })->get();
+            } else {
+                $students = Student::whereHas('submissions', function ($query) use ($request) {
+                    $query->where(function ($subquery) use ($request) {
+                        $subquery->where('school_year', '=', $request->input('school_year'))
+                            ->where('semester', '=', $request->input('semester'));
+                    });
+                })->get();
+            }
         }
 
         return view('submissions.index', [
@@ -74,7 +84,7 @@ class SubmissionController extends Controller
         $file = $request->file('document');
         $path = $file->store('public');
 
-        $student = DB::table('students')->where('user_id', $request->user()->id)->first();
+        $student = Student::where('user_id', $request->user()->id)->first();
 
         DB::table('submissions')->insert([
             'research_form_id' => $researchForm->id,
@@ -87,7 +97,7 @@ class SubmissionController extends Controller
             'updated_at' => DB::raw('CURRENT_TIMESTAMP'),
         ]);
 
-        return redirect(route('research-forms.index'));
+        return redirect(route('research-forms.index', $student));
     }
 
     public function show(Student $student, ResearchForm $researchForm)
@@ -111,7 +121,7 @@ class SubmissionController extends Controller
         $uri = '';
 
         if (isset($submission)) {
-            $uri = asset('storage/'.explode('/', $submission->path)[1]);
+            $uri = asset('storage/' . explode('/', $submission->path)[1]);
         }
 
         return view('submissions.show', [
@@ -174,7 +184,7 @@ class SubmissionController extends Controller
             'remarks' => '',
         ]);
 
-        return redirect(route('research-forms.index'))
+        return redirect(route('research-forms.index', $student))
             ->with(['message' => 'Submission updated successfully.']);
     }
 }
