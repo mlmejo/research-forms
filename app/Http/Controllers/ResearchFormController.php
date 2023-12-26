@@ -9,12 +9,10 @@ use Illuminate\Http\Request;
 
 class ResearchFormController extends Controller
 {
-    public function index(): View
+    public function index(Student $student): View
     {
-        $studentId = Student::where('user_id', request()->user()->id)->value('id');
-
-        $forms = ResearchForm::with(['submissions' => function ($query) use ($studentId) {
-            $query->where('student_id', $studentId);
+        $forms = ResearchForm::with(['submissions' => function ($query) use ($student) {
+            $query->where('student_id', $student->id);
         }])->get();
 
         $forms->each(function ($form) {
@@ -23,7 +21,7 @@ class ResearchFormController extends Controller
 
         return view('research-forms.index', [
             'researchForms' => $forms,
-            'studentId' => $studentId,
+            'student' => $student,
         ]);
     }
 

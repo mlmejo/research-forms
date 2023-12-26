@@ -131,9 +131,12 @@
                         </li>
 
                         @if (request()->user()->hasRole('student'))
+                            @php
+                                $student = \App\Models\Student::where('user_id', '=', Auth::id())->first();
+                            @endphp
                             <li class="nav-item">
                                 <a class="nav-link {{ Request::routeIs('research-forms.*') ? 'active' : '' }}"
-                                    href="{{ route('research-forms.index') }}">
+                                    href="{{ route('research-forms.index', $student) }}">
                                     <svg fill="currentColor" class="font-awesome" xmlns="http://www.w3.org/2000/svg"
                                         height="1em"
                                         viewBox="0 0 384 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->

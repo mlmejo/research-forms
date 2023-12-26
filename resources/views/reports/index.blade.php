@@ -57,7 +57,11 @@
                         </tr>
                         @foreach ($students as $student)
                             <tr>
-                                <td>{{ $student->user->first_name }} {{ $student->user->last_name }}</td>
+                                <td>
+                                    <a href="{{ route('research-forms.index', $student) }}" class="text-decoration-none">
+                                        {{ $student->user->first_name }} {{ $student->user->last_name }}
+                                    </a>
+                                </td>
                                 <td>{{ $student->control_number }}</td>
                                 <td>{{ $student->school_year }}</td>
                                 <td>{{ $student->semester }}</td>

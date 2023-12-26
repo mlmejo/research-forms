@@ -74,9 +74,9 @@ Route::middleware('auth')->group(function () {
     )->name('research-forms.submissions.update');
 });
 
-Route::get('/research-forms', [ResearchFormController::class, 'index'])
+Route::get('/students/{student}/research-forms', [ResearchFormController::class, 'index'])
     ->name('research-forms.index')
-    ->middleware(['auth', 'role:student']);
+    ->middleware(['auth', 'role:student|admin']);
 
 Route::controller(ResearchFormController::class)->group(function () {
     Route::get('/research-forms/create', 'create')

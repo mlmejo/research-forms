@@ -3,6 +3,7 @@
 @section('content')
     <div class="p-3 shadow-sm bg-white">
         <h2 class="h4 mb-2 font-weight-bold">Research Forms</h2>
+        <p class="mb-2 text-muted">Student: {{ $student->user->last_name }}, {{ $student->user->first_name }} {{ $student->user->middle_name }}</p>
 
         <div class="table-responsive">
             <table class="table table-sm table-striped">
@@ -16,7 +17,6 @@
                 <tbody>
                     @foreach ($researchForms as $researchForm)
                         @php
-                            $student = \App\Models\Student::where('user_id', '=', Auth::id())->first();
                             $submission = \App\Models\Submission::where('research_form_id', '=', $researchForm->id)
                                 ->where('student_id', '=', $student->id)
                                 ->first();
@@ -25,7 +25,7 @@
                             <td>
                                 @if ($researchForm->submitted && $submission->status != 'rejected')
                                     <a
-                                        href="{{ route('research-forms.submissions.show', [$studentId, $researchForm]) }}">
+                                        href="{{ route('research-forms.submissions.show', [$student->id, $researchForm]) }}">
                                         {{ $researchForm->title }}
                                     </a>
                                 @elseif ($researchForm->submitted && $submission->status == 'rejected')
