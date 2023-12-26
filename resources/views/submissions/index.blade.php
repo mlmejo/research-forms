@@ -18,7 +18,7 @@
         <form action="" method="get">
             <div class="row mb-3">
                 <div class="col-md-4">
-                    <select class="custom-select" id="select-form">
+                    <select class="custom-select" id="select-form" name="formId">
                         <option value="">Select form</option>
                         @foreach ($researchForms as $researchForm)
                             @if (request()->query('formId') == $researchForm->id)
