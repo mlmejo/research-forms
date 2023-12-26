@@ -23,7 +23,7 @@
                     <tbody>
                         <tr>
                             <th>
-                                @if ($course->name == 'SHS Department')
+                                @if ($department->name == 'SHS Department')
                                     Strand
                                 @else
                                     Course
