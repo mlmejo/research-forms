@@ -25,9 +25,30 @@ class ReportController extends Controller
         }
 
         return view('reports.index', [
-            'students' => $students,
+            'students' => Student::all(),
             'formCount' => ResearchForm::count(),
             'schoolYears' => Submission::distinct()->pluck('school_year'),
+            'departments' => Department::all(),
+        ]);
+    }
+
+    public function table(Request $request)
+    {
+        $request->validate([
+            'school_year' => 'required',
+            'semester' => 'required',
+        ]);
+
+        $students = Student::whereHas('submissions', function ($query) use ($request) {
+            $query->where([
+                'school_year' => $request->school_year,
+                'semester' => $request->semester,
+            ]);
+        })->get();
+
+        return view('reports.partial.table', [
+            'students' => $students,
+            'formCount' => ResearchForm::count(),
             'departments' => Department::all(),
         ]);
     }

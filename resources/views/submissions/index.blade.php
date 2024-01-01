@@ -35,7 +35,7 @@
                 </div>
 
                 <div class="col-md-4 pl-0">
-                    <select class="custom-select" id="select-department">
+                    <select class="custom-select" id="select-department" name="departmentId">
                         <option value="">Select department</option>
                         @foreach ($departments as $department)
                             @if (request()->query('departmentId') == $department->id)

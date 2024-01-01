@@ -22,8 +22,8 @@ class SubmissionController extends Controller
         $students = null;
         $department = null;
 
-        if ($request->has('departmentId', false)) {
-            $department = Department::find($request->query('departmentId'));
+        if ($request->has('departmentId')) {
+            $department = Department::find($request->input('departmentId'));
         } else {
             $students = Student::all();
         }

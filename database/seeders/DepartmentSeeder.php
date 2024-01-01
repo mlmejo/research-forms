@@ -13,7 +13,7 @@ class DepartmentSeeder extends Seeder
     public function run(): void
     {
         DB::table('departments')->insert([
-            'name' => 'CAS',
+            'name' => 'CED',
         ]);
     }
 }
