@@ -24,12 +24,12 @@
                 <select name="school_year" id="school_year" class="custom-select">
                     <option value="">Choose school year</option>
                     <?php
-                        $current_year = date("Y");
-                        for ($i = 2018; $i <= $current_year; $i++) {
-                            $next_year = $i + 1;
-                            $school_year = $i . " - " . $next_year;
-                            echo '<option value="' . $school_year . '">' . $school_year . '</option>';
-                        }
+                    $current_year = date('Y');
+                    for ($i = 2018; $i <= $current_year; $i++) {
+                        $next_year = $i + 1;
+                        $school_year = $i . ' - ' . $next_year;
+                        echo '<option value="' . $school_year . '">' . $school_year . '</option>';
+                    }
                     ?>
                 </select>
             </div>
@@ -45,7 +45,10 @@
             </div>
 
             <div class="mt-3 p-0">
-                <a href="/research-forms" class="btn btn-secondary">Cancel</a>
+                @php
+                    $student = \App\Models\Student::where('user_id', '=', Auth::id())->first();
+                @endphp
+                <a href="{{ route('research-forms.index', $student) }}" class="btn btn-secondary">Cancel</a>
                 <button type="submit" class="btn ml-1 btn-primary">Submit</button>
             </div>
         </form>
