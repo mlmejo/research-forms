@@ -16,16 +16,14 @@ class ReportController extends Controller
         $students = Student::all();
 
         if ($request->has(['school_year', 'semester'])) {
-            $students = Student::whereHas('submissions', function ($query) use ($request) {
-                $query->where(function ($subquery) use ($request) {
-                    $subquery->where('school_year', '=', $request->input('school_year'))
-                        ->where('semester', '=', $request->input('semester'));
-                });
-            })->get();
+            $students = Student::where([
+                ['school_year' => $request->query('school_year')],
+                ['semester' => $request->query('semester')],
+            ])->get();
         }
 
         return view('reports.index', [
-            'students' => Student::all(),
+            'students' => $students,
             'formCount' => ResearchForm::count(),
             'schoolYears' => Submission::distinct()->pluck('school_year'),
             'departments' => Department::all(),
@@ -39,12 +37,10 @@ class ReportController extends Controller
             'semester' => 'required',
         ]);
 
-        $students = Student::whereHas('submissions', function ($query) use ($request) {
-            $query->where([
-                'school_year' => $request->school_year,
-                'semester' => $request->semester,
-            ]);
-        })->get();
+        $students = Student::where([
+            ['school_year', '=', $request->school_year],
+            ['semester', '=', $request->semester],
+        ])->get();
 
         return view('reports.partial.table', [
             'students' => $students,

@@ -19,31 +19,20 @@ class SubmissionController extends Controller
     {
         $researchForm = ResearchForm::find($request->query('formId', 1));
         $schoolYears = Submission::distinct()->pluck('school_year');
-        $students = null;
         $department = null;
+        $students = null;
 
         if ($request->has('departmentId')) {
-            $department = Department::find($request->input('departmentId'));
-        } else {
-            $students = Student::all();
+            $department = Department::find($request->departmentId);
         }
 
-        if ($request->has(['school_year', 'semester'])) {
-            if ($department) {
-                $students = $department->students()->whereHas('submissions', function ($query) use ($request) {
-                    $query->where(function ($subquery) use ($request) {
-                        $subquery->where('school_year', '=', $request->input('school_year'))
-                            ->where('semester', '=', $request->input('semester'));
-                    });
-                })->get();
-            } else {
-                $students = Student::whereHas('submissions', function ($query) use ($request) {
-                    $query->where(function ($subquery) use ($request) {
-                        $subquery->where('school_year', '=', $request->input('school_year'))
-                            ->where('semester', '=', $request->input('semester'));
-                    });
-                })->get();
-            }
+        if (isset($department)) {
+            $students = $department->students()->where([
+                ['school_year', '=', $request->school_year],
+                ['semester', '=', $request->semester],
+            ])->get();
+        } else {
+            $students = Student::all();
         }
 
         return view('submissions.index', [
@@ -52,6 +41,28 @@ class SubmissionController extends Controller
             'researchForms' => ResearchForm::all(),
             'departments' => Department::all(),
             'schoolYears' => $schoolYears,
+        ]);
+    }
+
+    public function table(Request $request)
+    {
+        $request->validate([
+            'formId' => 'required|exists:research_forms,id',
+            'departmentId' => 'required|exists:departments,id',
+            'school_year' => 'required',
+            'semester' => 'required',
+        ]);
+
+        $department = Department::find($request->departmentId);
+
+        $students = $department->students()->where(
+            ['school_year' => $request->school_year],
+            ['semester' => $request->semester],
+        )->get();
+
+        return view('submissions.partial.table', [
+            'students' => $students,
+            'formId' => $request->formId,
         ]);
     }
 

@@ -118,3 +118,6 @@ Route::get('/home', HomeController::class)->middleware('auth');
 
 Route::post('/reports/table', [ReportController::class, 'table'])
     ->middleware(['auth', 'role:admin']);
+
+Route::post('/submissions/table', [SubmissionController::class, 'table'])
+    ->middleware(['auth', 'role:admin']);
